@@ -943,7 +943,7 @@ $N$ сенсоров,
     \end{bmatrix}
 \end{gather}
 
-В такой формулировке матрицы $G^b, G^E$ называются \emph{матрицами прямой модели} для МЭГ и ЭЭГ соответственно;
+В такой формулировке матрицы $\mathcal{G}^b, \mathcal{G}^E$ называются \emph{матрицами прямой модели} для МЭГ и ЭЭГ соответственно;
 при этом столбцы этих матриц принято называть \emph{топографиями}. Три топографии в каждой точке обхема мозга $\mathbf{r}$
 образуют трехмерное линейное пространство в силу линейности поля чувствительности при фиксированном $\mathbf{r}$.
 
@@ -1034,7 +1034,7 @@ $N$ сенсоров,
 состоящую из $n$ точек на коре и аппроксимирующую поверхность мозга испытуемого (\ref{fig:src_space}).
 Решая так называемую прямую задачу [2], мы можем осуществить отображение $n$ точек пространства
 источников в $m$-мерное пространство сенсоров с оператором отображения $\mathbf{G}$, имея в виду, что
-обычно $n >> m$, так как для качественной аппроксимации нам нужно намного
+обычно $n \gg m$, так как для качественной аппроксимации нам нужно намного
 больше точек на поверхности мозга, чем сенсоров, регистрирующих мозговую активность.
 
 Оператор $\mathbf{G}$ --- суть, решение уравнений Максвелла для точечных источников электромагнитной активности,
@@ -1271,7 +1271,41 @@ $\langle \hat{\xi}_p \hat{\xi}_q^* \rangle = \langle r_p r_q \rangle \langle e^{
 Перепишем выражение (\ref{cp_rhs_vec}), используя новые обозначения:
 
 \begin{equation}
-    vec(\Cp{x}(t)) = \sum\limits_{p=1}^n\sum\limits_{q=1}^n \mathbf{g}_q\otimes \mathbf{g}_p \cdot c_{pq}^{\mathbf{ss}}(t) + vec(\Cp{\omega}(t))
+    vec(\mathbf{A}) = \mathbf{K}^{(m,n)} vec(\mathbf{A}^T)
+    \label{eq:commutation_matrix_def}
+\end{equation}
+где $\mathbf{A}$~--- матрица размером $m \times n$, а матрица $\mathbf{K}^{(m,n)}$ имеет размеры
+$mn \times mn$.
+Матрица $K^{(m,n)}$ является частным случаем матрицы перестановок и
+может быть получена из единичной перестановкой строк.
+
+Далее нас будет интересовать только случай квадратных матриц $\mathbf{A}$.
+Получим в явном виде выражение для коммутационной матрицы в случае квадратных матриц.
+
+Пусть матрица $\mathbf{A}$ имеет размеры $n \times n$. Обозначим соответствующую ей коммутационную матрицу
+как $\mathbf{K}_n$
+Обозначим символом $\mathbf{e}_i$ вектор-столбец длины $n$, у которого на $i$-ом месте стоит
+единица, а на всех остальных --- нули. Тогда для векторизации $\mathbf{A}^T$ будем иметь:
+
+\begin{multline}
+    vec\left(\mathbf{A}^T\right) = vec\left(\sum_{i,j} A_{i,j} \mathbf{e}_j \mathbf{e}_i^T\right) =
+    vec\left(\sum_{i,j} (\mathbf{e}_i^T \mathbf{A} \mathbf{e}_j)(\mathbf{e}_j \mathbf{e}_i^T)\right) = \\
+  = vec\left(\sum_{i,j} \mathbf{e}_j \mathbf{e}_i^T \mathbf{A} \mathbf{e}_j\mathbf{e}_i^T\right) =
+    \sum_{i,j} vec\left(\mathbf{e}_j \mathbf{e}_i^T \mathbf{A} \mathbf{e}_j \mathbf{e}_i^T\right) =
+    \left(\sum_{i,j} (\mathbf{e}_i \mathbf{e}_j^T) \otimes (\mathbf{e}_j \mathbf{e}_i^T) \right)vec(\mathbf{A})
+\end{multline}
+
+Таким образом,
+\begin{equation}
+    \mathbf{K}_n =  \sum_{i,j} (\mathbf{e}_i \mathbf{e}_j^T) \otimes (\mathbf{e}_j \mathbf{e}_i^T)
+    \label{eq:commutation_matrix_formula}
+\end{equation}
+
+Теперь перепишем выражение (\ref{cp_rhs_vec}), используя новые обозначения:
+
+\begin{equation}
+    vec(\Cp{x}(t)) = \sum\limits_{p=1}^n\sum\limits_{q=1}^n
+    \mathbf{g}_q\otimes \mathbf{g}_p \cdot c_{pq}^{\mathbf{ss}}(t) + vec(\Cp{\omega}(t))
     \label{cp_rhs_kron}
 \end{equation}
 Теперь можно видеть, что векторизованный кросс-спектр на уровне сенсоров представлен линейной
@@ -1293,11 +1327,12 @@ $\langle \hat{\xi}_p \hat{\xi}_q^* \rangle = \langle r_p r_q \rangle \langle e^{
 $c^{\mathbf{ss}}_{pq} = \overline{c^{\mathbf{ss}}_{qp}}$ (верхняя черта обозначает комплексное сопряжение):
 
 \begin{gather}
-                      \sum\limits_{p=1}^n\sum\limits_{q=1}^n \mathbf{g}_q\otimes \mathbf{g}_p \cdot c_{pq}^{\mathbf{ss}}(t) =
-             Re\left(\sum\limits_{p,q=1}^{n,n} \mathbf{g}_q\otimes \mathbf{g}_p \cdot c_{pq}^{\mathbf{ss}}(t)\right) +
-     i \cdot Im\left(\sum\limits_{p,q=1}^{n,n} \mathbf{g}_q\otimes \mathbf{g}_p \cdot c_{pq}^{\mathbf{ss}}(t)\right) = \nonumber \\
+    \sum\limits_{p=1}^n\sum\limits_{q=1}^n \mathbf{g}_q\otimes \mathbf{g}_p \cdot c_{pq}^{\mathbf{ss}}(t) =
+    Re\left(\sum\limits_{p,q=1}^{n,n} \mathbf{g}_q\otimes \mathbf{g}_p \cdot c_{pq}^{\mathbf{ss}}(t)\right) +
+     i \cdot Im\left(\sum\limits_{p,q=1}^{n,n}
+     \mathbf{g}_q\otimes \mathbf{g}_p \cdot c_{pq}^{\mathbf{ss}}(t)\right) = \nonumber \\
            = \sum\limits_{p\leq q}^{n,n} (\mathbf{g}_q\otimes \mathbf{g}_p + \mathbf{g}_p\otimes \mathbf{g}_q)
-                                                                                    Re\left(c_{pq}^{\mathbf{ss}}(t)\right) +
+           Re\left(c_{pq}^{\mathbf{ss}}(t)\right) +
      i \cdot \sum\limits_{p<q}^{n,n} (\mathbf{g}_q\otimes \mathbf{g}_p - \mathbf{g}_p\otimes \mathbf{g}_q)
            Im\left(c_{pq}^{\mathbf{ss}}(t)\right)
     \label{eq:cp_re_im}
@@ -1430,8 +1465,10 @@ $\mathbf{g}_q \otimes \mathbf{g}_p - \mathbf{g}_p \otimes \mathbf{g}_q$ анти
 запишется в виде:
 
 \begin{equation}
-    vec(\Cp{x})^\perp = \mathbf{P}_r vec(\Cp{x}) =  \sum\limits_{p=1}^n\sum\limits_{q=1}^n \mathbf{P}_r \mathbf{g}_q\otimes \mathbf{g}_p \cdot c_{pq}^{\mathbf{ss}}(t) + \mathbf{P}_r vec(\Cp{\omega}(t))
-    \label{cp_final}
+    vec(\Cp{x})^\perp = \mathbf{P}_r vec(\Cp{x}) =
+    \sum\limits_{p=1}^n\sum\limits_{q=1}^n \mathbf{P}_r \mathbf{g}_q\otimes
+    \mathbf{g}_p \cdot c_{pq}^{\mathbf{ss}}(t) + \mathbf{P}_r vec(\Cp{\omega}(t))
+    \label{eq:cp_final}
 \end{equation}
 
 Элементы полученного таким образом векторизованного кросс-спектра $vec(\Cp{x})^\perp$ теперь могут быть
@@ -1467,7 +1504,8 @@ $\mathbf{g}_q \otimes \mathbf{g}_p - \mathbf{g}_p \otimes \mathbf{g}_q$ анти
 Для учета свободной ориентации следует представить топографию в точке $p$ коры в виде линейной
 комбинации трех ортогональных друг к другу векторов топографии, размещенных в одной точке:
 \begin{equation}
-    \mathbf{g}_p = \mathbf{g}_p^x \xi + \mathbf{g}_p^y \eta + \mathbf{g}_p^z \zeta = [\mathbf{g}_p^x, \mathbf{g}_p^y, \mathbf{g}_p^z] \left(
+    \mathbf{g}_p = \mathbf{g}_p^x \xi + \mathbf{g}_p^y \eta + \mathbf{g}_p^z \zeta =
+    [\mathbf{g}_p^x, \mathbf{g}_p^y, \mathbf{g}_p^z] \left(
     \begin{array}{ccc}
         \xi \\
         \eta \\
@@ -1520,7 +1558,9 @@ $\mathbf{g}_q \otimes \mathbf{g}_p - \mathbf{g}_p \otimes \mathbf{g}_q$ анти
 между эффективной ориентацией топографии $\mathbf{g}_p$ и ее $х$-компоненты --- через $\xi = sin(\theta_p)$ и $\eta=cos(\theta_p)$:
 
 \begin{equation*}
-    \mathbf{g}_p \otimes \mathbf{g}_p =[\mathbf{g}_p^x \otimes \mathbf{g}_p^x, \mathbf{g}_p^x \otimes \mathbf{g}_p^y + \mathbf{g}_p^y \otimes \mathbf{g}_p^x, \mathbf{g}_p^y \otimes \mathbf{g}_p^y]
+    \mathbf{g}_p \otimes \mathbf{g}_p =
+    [\mathbf{g}_p^x \otimes \mathbf{g}_p^x, \mathbf{g}_p^x \otimes \mathbf{g}_p^y +
+     \mathbf{g}_p^y \otimes \mathbf{g}_p^x, \mathbf{g}_p^y \otimes \mathbf{g}_p^y]
     \left( \begin{array}{ccc}
     cos(\theta_p)^2 \\
     cos(\theta_p) sin(\theta_p) \\
@@ -1575,34 +1615,118 @@ $\mathbf{g}_q \otimes \mathbf{g}_p - \mathbf{g}_p \otimes \mathbf{g}_q$ анти
 
 Благодаря пакету \textit{icomma}, \LaTeX~одинаково хорошо воспринимает в качестве десятичного разделителя и запятую ($3,1415$), и точку ($3.1415$).
 
-\subsection{Ненумерованные одиночные формулы} \label{subsect1_3_1}
+\begin{multline}
+    \mathbf{g}_p \otimes \mathbf{g}_p = (\mathbf{g}_p^x \xi
+    + \mathbf{g}_p^y \eta
+    + \mathbf{g}_p^z \zeta)
+    \otimes
+    (\mathbf{g}_p^x \xi
+    + \mathbf{g}_p^y \eta
+    + \mathbf{g}_p^z \zeta) =
+    \nonumber \\
+    = \mathbf{g}_p^x \otimes \mathbf{g}_p^x \xi^2
+    + \mathbf{g}_p^y \otimes \mathbf{g}_p^y \eta^2
+    + \mathbf{g}_p^z \otimes \mathbf{g}_p^z \zeta^2+\\
+    + \mathbf{g}_p^x \otimes \mathbf{g}_p^y \xi \eta
+    + \mathbf{g}_p^y\otimes  \mathbf{g}_p^x \eta \xi+\\
+    + \mathbf{g}_p^x \otimes \mathbf{g}_p^z \xi \zeta
+    + \mathbf{g}_p^z\otimes  \mathbf{g}_p^x \zeta \xi+\\
+    + \mathbf{g}_p^y \otimes \mathbf{g}_p^z \eta \zeta
+    + \mathbf{g}_p^z \otimes \mathbf{g}_p^y \zeta \eta
+    =\\
+    =  [\mathbf{g}_p^x \otimes \mathbf{g}_p^x,
+        \mathbf{g}_p^y \otimes \mathbf{g}_p^y,
+        \mathbf{g}_p^z \otimes \mathbf{g}_p^z,
+        \mathbf{g}_p^x \otimes \mathbf{g}_p^y
+        + \mathbf{g}_p^y \otimes \mathbf{g}_p^x,
+        \mathbf{g}_p^x \otimes \mathbf{g}_p^z
+        + \mathbf{g}_p^z \otimes \mathbf{g}_p^x,
+        \mathbf{g}_p^y \otimes \mathbf{g}_p^z
+        + \mathbf{g}_p^z \otimes \mathbf{g}_p^y]
+        \left( \begin{array}{ccc}
+                \xi^2 \\
+                \eta^2 \\
+                \zeta^2 \\
+                \xi \eta \\
+                \xi \zeta \\
+                \eta \zeta
+            \end{array}
+        \right)
+\end{multline}
 
-Вот так может выглядеть формула, которую необходимо вставить в строку по тексту: $x \approx \sin x$ при $x \to 0$.
+Выражение в квадратных скобках вновь обозначает матрицу, записанную по столбцам,
+а $\xi, \eta, \zeta$~--- компоненты разложения диполя с истинной ориентацией по базису
+$\mathbf{g}_p^x,\mathbf{g}_p^y,\mathbf{g}_p^z$.
 
-А вот так выглядит ненумерованая отдельностоящая формула c подстрочными и надстрочными индексами:
-\[
-(x_1+x_2)^2 = x_1^2 + 2 x_1 x_2 + x_2^2
-\]
+Все шесть колонок для каждого источника $p$ матрицы в выражении выше для ЭЭГ должны быть добавлены
+в матрицу $\mathbf{F}$ для последующего расчета операции проецирования.
 
-При использовании дробей формулы могут получаться очень высокие:
-\[
-  \frac{1}{\sqrt{2}+
-  \displaystyle\frac{1}{\sqrt{2}+
-  \displaystyle\frac{1}{\sqrt{2}+\cdots}}}
-\]
+Повторяя далее процедуру \ref{eq:svd_f_fixed_or}, \ref{eq:U_fixed_or}, \ref{eq:P_fixed_or}, получим
+оператор проекции от протечки сигнала в случае свободной ориентации диполя.
 
-В формулах можно использовать греческие буквы:
-\[
-\alpha\beta\gamma\delta\epsilon\varepsilon\zeta\eta\theta\vartheta\iota\kappa\lambda\\mu\nu\xi\pi\varpi\rho\varrho\sigma\varsigma\tau\upsilon\phi\varphi\chi\psi\omega\Gamma\Delta\Theta\Lambda\Xi\Pi\Sigma\Upsilon\Phi\Psi\Omega
-\]
+Рассмотрим теперь, как преобразуется уравнение \ref{eq:cp_final}
+для свободной ориентации диполя в случае МЭГ и ЭЭГ.
+Проведем рассуждения сначала для ЭЭГ, а затем упростим для случая сферической симметрии в МЭГ.
 
-\def\slantfrac#1#2{ \hspace{3pt}\!^{#1}\!\!\hspace{1pt}/
-  \hspace{2pt}\!\!_{#2}\!\hspace{3pt}
-} %Макрос для красивых дробей в строчку (например, 1/2)
-Для красивых дробей (например, в индексах) можно добавить макрос
-\verb+\slantfrac+ и писать $\slantfrac{1}{2}$ вместо $1/2$.
-%\newpage
-%============================================================================================================================
+Итак, теперь векторы $\mathbf{g}_p, \mathbf{g}_q$ представляют собой
+линейную комбинацию троек дипольных векторов $\mathbf{g}^x, \mathbf{g}^y, \mathbf{g}^z$.
+Обозначим $\xi_p, \eta_p, \zeta_p$ значения проекций вектора $\mathbf{g}_p$ на
+$\mathbf{g}_p^x, \mathbf{g}_p^y, \mathbf{g}_p^z$, для вектора $\mathbf{g}_q$ определим аналогичные величины
+$\xi_q, \eta_q, \zeta_q$. Тогда для 2-топографии сети $p-q$, пользуясь \ref{eq:kron_vec} будем иметь:
+
+\begin{multline}
+    \mathbf{g}_p \otimes \mathbf{g}_q =
+    vec\left(
+        \begin{bmatrix}
+            |              & |              & |              \\
+            \mathbf{g}_p^x & \mathbf{g}_p^y & \mathbf{g}_p^z \\
+            |              & |              & |
+        \end{bmatrix}
+        \left( \begin{array}{ccc}
+                \xi_p \\
+                \eta_p \\
+                \zeta_p \\
+            \end{array}
+        \right)
+        \left(\begin{array}{ccc}
+                \xi_q,
+                \eta_q,
+                \zeta_q
+            \end{array}
+        \right)
+        \begin{bmatrix}
+            -             & \mathbf{g}_q^x & -   \\
+            -             & \mathbf{g}_q^y & -   \\
+            -             & \mathbf{g}_q^z & -
+        \end{bmatrix}
+    \right) = \\
+  = \begin{bmatrix}
+        |                 & |              & |              \\
+        \mathbf{g}_q^x    & \mathbf{g}_q^y & \mathbf{g}_q^z \\
+        |                 & |              & |
+    \end{bmatrix}
+    \otimes
+    \begin{bmatrix}
+        |                 & |              & |              \\
+        \mathbf{g}_p^x    & \mathbf{g}_p^y & \mathbf{g}_p^z \\
+        |                 & |              & |
+    \end{bmatrix}
+    \cdot
+    \left(\begin{array}{ccc}
+            \xi_q\\
+            \eta_q\\
+            \zeta_q
+        \end{array}
+    \right)
+    \otimes
+    \left(\begin{array}{ccc}
+            \xi_p\\
+            \eta_p\\
+            \zeta_p
+        \end{array}
+    \right)
+    \label{eq:kron_topo_free_or}
+\end{multline}
 
 \subsection{Ненумерованные многострочные формулы} \label{subsect1_3_2}
 
