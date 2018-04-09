@@ -21,6 +21,7 @@
 
 %%% Математические пакеты %%%
 \usepackage{amsthm,amsmath,amscd}       % Математические дополнения от AMS
+\usepackage{mathtools}
 \ifxetexorluatex
     \usepackage{amsfonts,amssymb}       % Математические дополнения от AMS
 \else
@@ -38,7 +39,7 @@
 \setlength{\bigtextsize}{13.9pt}
 
 \makeatletter
-%\show\f@size                                       % неплохо для отслеживания, но вызывает стопорение процесса, если документ компилируется без команды  -interaction=nonstopmode 
+%\show\f@size                                       % неплохо для отслеживания, но вызывает стопорение процесса, если документ компилируется без команды  -interaction=nonstopmode
 \setlength{\curtextsize}{\f@size pt}
 \makeatother
 
@@ -55,7 +56,7 @@
         }{}
     }{}
     \usepackage{cmap}                               % Улучшенный поиск русских слов в полученном pdf-файле
-    \defaulthyphenchar=127                          % Если стоит до fontenc, то переносы не впишутся в выделяемый текст при копировании его в буфер обмена 
+    \defaulthyphenchar=127                          % Если стоит до fontenc, то переносы не впишутся в выделяемый текст при копировании его в буфер обмена
     \usepackage[T1,T2A]{fontenc}                    % Поддержка русских букв
     \ifnumequal{\value{usealtfont}}{1}{% Используется pscyr, при наличии
         \IfFileExists{pscyr.sty}{\usepackage{pscyr}}{}  % Подключение pscyr
