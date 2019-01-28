@@ -379,7 +379,7 @@ a priori, до применения алгоритма это число не и
 для $k$-го отфильтрованного источника формализуется как
 
 \begin{gather}
-    \widehat{\mathbf{A}}_k = \underset{\mathbf{A}_k}{argmax}(\rho_k) =
+    \mathbf{A}_k = \underset{\mathbf{A}_k}{argmax}(\rho_k) =
     \underset{\mathbf{A}_k}{argmax}\left(
         \frac{tr(\mathbf{A}_k \mathbf{R}_{X,k} \mathbf{A}_k^T)}
              {tr(\mathbf{A}_k \mathbf{R}_n \mathbf{A}_k^T)}
@@ -419,7 +419,7 @@ a priori, до применения алгоритма это число не и
 Тогда~\ref{max_snr_objective} в одномерном случае преобразуется к виду
 
 \begin{equation}
-    \widehat{\mathbf{A}}_k =
+    \mathbf{A}_k =
         \underset{\norm{\mathbf{A}_k} = 1}{argmax}\left(
             \frac{\sigma_k^2\norm{\mathbf{A}_k \mathbf{g}_k}^2}
                  {\sigma_n^2\mathbf{A}_k \mathbf{I} \mathbf{A}_k^T}
@@ -433,7 +433,7 @@ a priori, до применения алгоритма это число не и
 будет достигаться на векторе, сонаправленном с ориентацией вектора топографии $\mathbf{g}_k$:
 
 \begin{equation}
-    \widehat{\mathbf{A}}_k = \frac{\mathbf{g}_k^T}{\norm{\mathbf{g}_k}}
+    \mathbf{A}_k = \frac{\mathbf{g}_k^T}{\norm{\mathbf{g}_k}}
 \end{equation}
 
 В случае свободной ориентации диполя матрица $\mathbf{R}_{X,k}$ примет вид
@@ -457,7 +457,7 @@ a priori, до применения алгоритма это число не и
                 |                 & |              & |
             \end{bmatrix}
      \right)\\
-    \widehat{\mathbf{A}}_k = 
+    \mathbf{A}_k = 
             \begin{bmatrix}
                 |                 & |              & |              \\
                 \mathbf{U}_{k, g}^1    & \mathbf{U}_{k,g}^2 & \mathbf{U}_{k,g}^3 \\
@@ -491,16 +491,16 @@ $span(\mathbf{g}_k^1, \mathbf{g}_k^2, \mathbf{g}_k^3)$.
 вдоль истинной ориентации тока в $k$-ой точке также пользуются критерием максимизации ОСШ.
 В этом случае ставится задача отыскания такой ориентации фильтров
 $\mathbf{\theta}_k = (\theta^1, \theta^2, \theta^3)^T$, для
-которой отфильтрованный сигнал $\mathbf{S}_k = \mathbf{\theta}_k^T \hat{\mathbf{A}}_k \mathbf{X}$
+которой отфильтрованный сигнал $\mathbf{S}_k = \mathbf{\theta}_k^T \mathbf{A}_k \mathbf{X}$
 будет обладать максимальной мощностью среди всех возможных ориентаций.
 
 Для нахождения такой ориентации достаточно взять собственный вектор матрицы
-$\hat{\mathbf{A}}_k \mathbf{X}\mathbf{X}^T \hat{\mathbf{A}}_k^T$,
+$\mathbf{A}_k \mathbf{X}\mathbf{X}^T \mathbf{A}_k^T$,
 соответствующий ее максимальному собственному числу.
 Тогда ориентированный фильтр будет выглядеть как
 
 \begin{equation}
-    \hat{\mathbf{A}}_{or k} = \mathbf{\theta}^T \hat{\mathbf{A}}_k
+    \mathbf{A}_{k}^{or} = \mathbf{\theta}^T {\mathbf{A}_k
 \end{equation}
 
 Заметим, что процедура построения такого фильтра очень похожа на способ
@@ -523,7 +523,7 @@ $\hat{\mathbf{A}}_k \mathbf{X}\mathbf{X}^T \hat{\mathbf{A}}_k^T$,
 Математически эта задача в случае фиксированной ориентации диполей запишется как
 
 \begin{equation}
-    \hat{\mathbf{A}}_k = \underset{\mathbf{A}_k}{argmin} (\Expect{\norm{\mathbf{A}_k \mathbf{X}}^2}),
+    \underset{\mathbf{A}_k}{min} (\Expect{\norm{\mathbf{A}_k \mathbf{X}}^2}),
     s.t.: \mathbf{A}_k \mathbf{g}_k = 1
 \end{equation}
 
@@ -559,6 +559,72 @@ $\hat{\mathbf{A}}_k \mathbf{X}\mathbf{X}^T \hat{\mathbf{A}}_k^T$,
 Окончательно, будем иметь
 
 \begin{equation}
-    \hat{\mathbf{A}}_k =
+    \mathbf{A}_k =
     \frac{\mathbf{g}_k^T \mathbf{R}_{\mathbf{X}}^{-1}}{\mathbf{g}_k^T \mathbf{R}_{\mathbf{X}}^{-1} \mathbf{g}_k}
+    \label{lcmv_filters}
 \end{equation}
+
+Можно показать, что в случае, если количество активных диполей меньше количества сенсоров,
+а временные профили активации активных диполей некоррелированны,
+такой фильтр будет выдавать нулевые значения для всех точек $k$, не совпадающих
+с положениями активных диполей.
+Такое поведение фильтра приводит к тому, что в случае, если точки дискретизации коры не
+совпадают идеально с положениями активных диполей, такие диполи будут не видны при
+фильтрации.
+Кроме того, в случае малого количества активных источников такой фильтр
+крайне плохо работает при наличии шума в данных, так как матрица $\mathbf{R}_{\mathbf{X}}^{-1}$
+в этом случае является вырожденной (ее ранг совпадает с количеством активных диполей).
+
+Чтобы исправить негативные эффекты этого фильтра, пользуются регуляризацией матрицы $\mathbf{R}_{\mathbf{X}}$:
+
+\begin{equation}
+    \mathbf{R}_{\mathbf{X}}^{reg} = \mathbf{R}_\mathbf{X} + \lambda \mathbf{I}
+\end{equation}
+
+Полученная матрица используется вместо матрицы $\mathbf{R}_\mathbf{X}$ в уравнении
+\ref{lcmv_filters}. Регулируя коэффициент регуляризации $\lambda$, можно упрявлять степенью
+сглаженности пространственной чувствительности фильтров $\mathbf{A}_k$.
+
+Пространственные фильтры такого типа обычно принятно называть адаптивными
+(так как они не только используют знания о геометрии взаимного расположения коры и массива сенсоров,
+но и подстраиваются под текущую активность) или
+бимформерами (в дословном переводе~--- формирователь луча),
+так как они конструируют фильтры, направленные на определенные пространственные направления сродни лучу
+прожектора.
+
+\subsubsection{DICS}
+Рассмотрим теперь одну важную модификацию алгоритма бимформеров,
+разработанную для анализа коннективностей~\ref{DICS}.
+
+Суть метода состоит в построении адаптивных фильтров в частотной области.
+
+Рассмотрим подробно этапы построения DICS-фильтров.
+Начнем вновь с рассмотрения порождающей модели сигнала
+
+\begin{equation}
+    \mathbf{X} = \mathbf{G} \mathbf{S} + \mathbf{\Omega},
+    \label{gm_dics}
+\end{equation}
+
+
+Применим к данным частотно-временное преобразование и посчитаем кросс-спектр по аналогии с
+\ref{gm_timefreq} и \ref{gm_cp_matr}:
+
+\begin{gather}
+    \hat{\mathbf{x}}_{k,f_i}(t) = \mathbf{G} \cdot \hat{\mathbf{s}}_{k,f_i}(t) + \hat{\mathbf{\omega}}_{k,f_i}(t)\\
+    \Cp{x}(t) = \mathbf{G} \Cp{s}(t) \mathbf{G}^T + \Cp{\omega}(t)
+    \label{gm_cp_matr}
+\end{gather}
+
+
+Оптимизационная задача метода DICS формализуется следующим образом:
+
+\begin{equation}
+    \underset{\mathbf{A}_k}{min}\left(
+        \Expect{\norm{\mathbf{A}_k \hat{\mathbf{X}}}^2} + \lambda \norm{\mathbf{A}_k}^2
+    \right), s.t.: \mathbf{A}_k \mathbf{g}_k = \mathbf{I}
+\end{equation}
+
+Оптимизационный критерий аналогичен критерию для фильтра, минимизирующего вклад от
+третих источников из предыдущего раздела. Здесь идет речь о том, что частотный образ
+
