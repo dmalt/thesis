@@ -1,4 +1,4 @@
-\chapter{Решение обратной задачи в пространстве матриц кросс-спектральной плотности} \label{chapt2}
+\chapter{Решение обратной задачи в пространстве матриц кросс-спектральной плотности}~\label{chapt2}
 
 % План.
 % Методы решения обратной задачи для МЭГ/ЭЭГ.
@@ -500,7 +500,7 @@ $\mathbf{A}_k \mathbf{X}\mathbf{X}^T \mathbf{A}_k^T$,
 Тогда ориентированный фильтр будет выглядеть как
 
 \begin{equation}
-    \mathbf{A}_{k}^{or} = \mathbf{\theta}^T {\mathbf{A}_k
+    \mathbf{A}_{k}^{or} = \mathbf{\theta}^T \mathbf{A}_k
 \end{equation}
 
 Заметим, что процедура построения такого фильтра очень похожа на способ
@@ -523,35 +523,38 @@ $\mathbf{A}_k \mathbf{X}\mathbf{X}^T \mathbf{A}_k^T$,
 Математически эта задача в случае фиксированной ориентации диполей запишется как
 
 \begin{equation}
-    \underset{\mathbf{A}_k}{min} (\Expect{\norm{\mathbf{A}_k \mathbf{X}}^2}),
-    s.t.: \mathbf{A}_k \mathbf{g}_k = 1
+    \Expect{\norm{\mathbf{a}_k \mathbf{X}}^2}
+    \rightarrow \underset{\mathbf{a}_k}{\min},
+    s.t.: \mathbf{a}_k \mathbf{g}_k = 1
+    \label{lcmv_objective_nonreg}
 \end{equation}
 
-Выпишем соответствующий лагранжиан c учетом того, что $\mathbf{R}_{\mathbf{X}} = \Expect{\mathbf{X}\mathbf{X}^T}$
-~---это матрица ковариации сигнала на сенсорах:
+Выпишем соответствующий лагранжиан c учетом того,
+что $\mathbf{R}_{\mathbf{X}} = \Expect{\mathbf{X}\mathbf{X}^T}$
+~--- это матрица ковариации сигнала на сенсорах:
 
 \begin{equation}
-    f_L(A, \lambda) = \mathbf{A}_k \mathbf{R}_{\mathbf{X}} \mathbf{A}_k^T + \lambda (\mathbf{A}_k \mathbf{g}_k - 1)
+    f_L(\mathbf{a}_k, \lambda) = \mathbf{a}_k \mathbf{R}_{\mathbf{X}} \mathbf{a}_k^T + \lambda (\mathbf{a}_k \mathbf{g}_k - 1)
 \end{equation}
 
 
-Далее, приравняв производную лагранжиана по $\mathbf{A}_k ^ T$ к нулю, будем иметь:
+Далее, приравняв производную лагранжиана по $\mathbf{a}_k ^ T$ к нулю, будем иметь:
 
 \begin{equation}
-    \frac{\partial f_L}{\partial \mathbf{A}_k} = 
-    2 \mathbf{R}_{\mathbf{X}} \mathbf{A}_k^T + \lambda \mathbf{g}_k = 0
+    \frac{\partial f_L}{\partial \mathbf{a}_k} = 
+    2 \mathbf{R}_{\mathbf{X}} \mathbf{a}_k^T + \lambda \mathbf{g}_k = 0
 \end{equation}
 
 Откуда
 
 \begin{equation}
-    \mathbf{A}_k = - \frac{\lambda}{2} \mathbf{g}_k^T\mathbf{R}_{\mathbf{X}}^{-1}
+    \mathbf{a}_k = - \frac{\lambda}{2} \mathbf{g}_k^T\mathbf{R}_{\mathbf{X}}^{-1}
 \end{equation}
 
 Используя ограничение, получим
 
 \begin{equation}
-    1 = \mathbf{A}_k \mathbf{g}_k =
+    1 = \mathbf{a}_k \mathbf{g}_k =
     - \frac{\lambda}{2} \mathbf{g}_k^T\mathbf{R}_{\mathbf{X}}^{-1} \mathbf{g}_k \implies
     \lambda = -\frac{2}{\mathbf{g}_k^T \mathbf{R}_{\mathbf{X}}^{-1} \mathbf{g}_k}
 \end{equation}
@@ -559,7 +562,7 @@ $\mathbf{A}_k \mathbf{X}\mathbf{X}^T \mathbf{A}_k^T$,
 Окончательно, будем иметь
 
 \begin{equation}
-    \mathbf{A}_k =
+    \mathbf{a}_k =
     \frac{\mathbf{g}_k^T \mathbf{R}_{\mathbf{X}}^{-1}}{\mathbf{g}_k^T \mathbf{R}_{\mathbf{X}}^{-1} \mathbf{g}_k}
     \label{lcmv_filters}
 \end{equation}
@@ -578,22 +581,171 @@ $\mathbf{A}_k \mathbf{X}\mathbf{X}^T \mathbf{A}_k^T$,
 Чтобы исправить негативные эффекты этого фильтра, пользуются регуляризацией матрицы $\mathbf{R}_{\mathbf{X}}$:
 
 \begin{equation}
-    \mathbf{R}_{\mathbf{X}}^{reg} = \mathbf{R}_\mathbf{X} + \lambda \mathbf{I}
+    \mathbf{R}_{\mathbf{X}}^{reg} = \mathbf{R}_\mathbf{X} + \alpha \mathbf{I}
 \end{equation}
 
-Полученная матрица используется вместо матрицы $\mathbf{R}_\mathbf{X}$ в уравнении
-\ref{lcmv_filters}. Регулируя коэффициент регуляризации $\lambda$, можно упрявлять степенью
-сглаженности пространственной чувствительности фильтров $\mathbf{A}_k$.
+Полученная матрица используется вместо матрицы $\mathbf{R}_\mathbf{X}$ в
+уравнении~\ref{lcmv_filters}. Подстраивая коэффициент регуляризации $\alpha$, можно упрявлять степенью
+сглаженности пространственной чувствительности фильтров $\mathbf{a}_k$.
 
-Пространственные фильтры такого типа обычно принятно называть адаптивными
+
+Отметим, что решения для фильтров вида \ref{lcmv_filters},
+содержащие матрицу $\mathbf{R}_\mathbf{X}^{reg}$ вместо $\mathbf{R}_\mathbf{X}$ получаются для
+видоизмененной версии исходной оптимизационной задачи~\ref{lcmv_objective_nonreg},
+которую можно записать как
+
+\begin{equation}
+    \Expect{\norm{\mathbf{a}_k \mathbf{X}}^2} + \alpha \norm{\mathbf{a}_k}^2
+    \rightarrow \underset{\mathbf{a}_k}{\min},
+    s.t.: \mathbf{a}_k \mathbf{g}_k = 1
+    \label{lcmv_objective_reg}
+\end{equation}
+
+Искомые выражения для фильтров $\mathbf{a}_k$ вновь могут быть получены методом множителей Лагранжа.
+Второй член в оптимизируемом функционале \ref{lcmv_objective_reg} накладывает ограничение на
+норму искомых фильтров, не давая ей расти слишком сильно и исключая ту ситуацию,
+когда оптимизация приводит к выбору фильтра, лежащего в подпространстве собственных
+векторов матрицы $\mathbf{R}_\mathbf{X}$, соответствующих малым (шумовым) собственным числам.
+В этом случае угол между фильтром и соответствующей топографией будет близок к $\pi/2$,
+и чтобы удовлетворить ограничению, оптимизация будет компенсировать величину проекции
+$\mathbf{a}_k$ на $\mathbf{g}_k$ за счет увеличения нормы $\mathbf{a}_k$.
+
+Пространственные фильтры, использующие матрицу ковариации измерений,
+обычно принятно называть адаптивными
 (так как они не только используют знания о геометрии взаимного расположения коры и массива сенсоров,
 но и подстраиваются под текущую активность) или
 бимформерами (в дословном переводе~--- формирователь луча),
-так как они конструируют фильтры, направленные на определенные пространственные направления сродни лучу
-прожектора.
+имея в виду, что они конструируют фильтры,
+сфокуссированные на заданных пространственные направлениях, сродни лучу прожектора.
+
+Рассмотрим теперь ту же самую задачу в векторной постановке.
+Отметим сначала, что для скоррелированных источников процедура, описанная
+выше, будет давать ошибочные значения мощностей сигналов в источниках.
+Чтобы убедиться в этом, рассмотрим, как действуют фильтры на вектора прямой модели
+в одномерном случае в предположении отсутствия шума,
+а также считая, что количество активных источников $q$ меньше количества сенсоров $m$.
+В таких предположениях матрица ковариации сигнала на сенсорах $\mathbf{R}_{\mathbf{X}}$
+размером $m\times m$ будет иметь ранг $q$, и следовательно будет являться необратимой.
+Тем не менее, ее можно приблизить псевдообратной матрицей.
+Тогда, так как $\mathbf{R}_\mathbf{X} = \mathbf{G} \mathbf{R}_\mathbf{S} \mathbf{G}^T$
+
+\begin{equation}
+    \mathbf{R}_\mathbf{X}^{-1} \approx (\mathbf{G} \mathbf{R}_\mathbf{X} \mathbf{G}^T)^\dagger =
+    (\mathbf{G}^\dagger)^T \mathbf{R}_\mathbf{S}^\dagger \mathbf{G}^\dagger = 
+    (\mathbf{G}^\dagger)^T \mathbf{R}_\mathbf{S}^{-1} \mathbf{G}^\dagger
+\end{equation}
+
+Кроме того, так как $q < m$, псевдообратная для матрицы $\mathbf{G}$ будет также ее левой обратной:
+
+\begin{equation}
+    \mathbf{G}^\dagger \mathbf{G} = ((\mathbf{G}^T \mathbf{G})^{-1} \mathbf{G}^T) \mathbf{G} = \mathbf{I}
+\end{equation}
+
+А значит, для отдельных топографий активных диполей будет выполнено
+
+\begin{equation}
+    \mathbf{G}^\dagger \mathbf{g}_k = \mathbf{1}_k
+\end{equation}
+
+где $\mathbf{1}_k$ обозначает вектор, у которого на $k$-ом месте стоит единица,
+а на всех остальных~--- нули.
+
+Теперь, пользуясь формулой~\ref{lcmv_filters}, можем расписать произведение
+$\mathbf{a}_k \mathbf{g}_l$:
+
+\begin{equation}
+    \mathbf{a}_k \mathbf{g}_l = \frac{\mathbf{g}_k^T \mathbf{R}_\mathbf{X}^{-1}\mathbf{g}_l}
+                                   {\mathbf{g}_k^T \mathbf{R}_\mathbf{X}^{-1} \mathbf{g}_k}=
+       \frac{(\mathbf{G}^\dagger\mathbf{g}_k)^T \mathbf{R}_\mathbf{S}^{-1} \mathbf{G}^\dagger \mathbf{g}_l}
+            {(\mathbf{G}^\dagger\mathbf{g}_k)^T \mathbf{R}_\mathbf{S}^{-1} \mathbf{G}^\dagger \mathbf{g}_k}=
+       \frac{\mathbf{1}_k \mathbf{R}_\mathbf{S}^{-1} \mathbf{1}_l}
+            {\mathbf{1}_k \mathbf{R}_\mathbf{S}^{-1} \mathbf{1}_l} =
+            \frac{\mathbf{R}_{\mathbf{S}, kl}^{-1}}
+                 {\mathbf{R}_{\mathbf{S}, kk}^{-1}}
+\end{equation}
+
+Таким образом, на незашумленных измерениях в случае, если матрица $\mathbf{R}_\mathbf{S}$ диагональна
+(а значит диагональна и $\mathbf{R}_\mathbf{S}^{-1}$),
+то есть источники нескоррелированны, адаптивный пространственный фильтр
+будет идеально восстанавливать источники, так как фильтр, направленный на $k$-ый источник
+будет полностью подавлять сигнал, приходящий от всех источников, кроме $k$-го.
+В этом случае произведение $\mathbf{a}_k \mathbf{g}_l = \delta_k^l$, где $\delta_k^l$~--- дельта Кронекера.
+
+Вместе с тем, если источники обладают коррелированными временными рядами, неизбежно возникает искажение
+восстановленного сигнала за счет протечки в точку, на которую направлен фильтр, сигнала от
+этих коррелированных источников.
+
+В случае, если их положение заранее известно, эту ситуацию можно исправить за счет дополнительных
+линейных ограничений вида $\mathbf{a}_k \mathbf{g}_l=0$ для ограниченного заранее известного
+набора индексов точек коры $l$.
+
+Именно такая ситуация возникает при попытке сформулировать критерий оптимальной
+адаптивной фильтрации в векторном случае. Действительно, для каждой точки коры мы будем
+иметь идеально скоррелированные источники по трем направлениям ориентации токовых диполей,
+так как они будут представлять собой проекции одного и того же вектора плотности тока на три разных
+направления. С другой стороны, это один из тех редких случаев, когда мы знаем топорафии
+источников с коррелированными временными рядами, поэтому можем явно выписать линейные ограничения
+на оптимизируемый функционал. Для $i$-го из трех фильтров будем иметь:
+
+\begin{equation}
+    \Expect{\norm{\mathbf{a}_k^i \mathbf{X}}^2}
+    \rightarrow \underset{\mathbf{a}_k}{\min},
+    s.t.: \mathbf{a}_k^i \mathbf{g}_k^j =  \delta_i^j, j = 1,2,3
+    \label{lcmv_opt_crit_components}
+\end{equation}
+
+В векторном виде, совокупно для трех фильтров, эта задача может быть переписана в виде
+
+
+\begin{equation}
+    \tr\left\{
+        \mathbf{A}_k \mathbf{R}_\mathbf{X}\mathbf{A}_k^T
+    \right\} \rightarrow \underset{\mathbf{A}_k}{\min},
+    s.t.: \mathbf{A}_k \mathbf{G}_k =  \mathbf{I}
+    \label{lcmv_opt_criterion_vec}
+\end{equation}
+
+Удобнее, однако, продолжить вывод покомпонентно.
+Вновь выпишем лагранжиан для~\ref{lcmv_opt_crit_components} оптимизационной задачи:
+
+\begin{equation}
+    f_L(\mathbf{a}_k, \lambda) = \mathbf{a}_k^i \mathbf{R}_\mathbf{X} \mathbf{a}_k^i^T +
+    \lambda (\mathbf{g}_k^T \mathbf{a}_k^i^T - \mathbf{1}_i)
+\end{equation}
+
+Дифференцируем и приравниваем к нулю:
+
+\begin{equation}
+    \frac{\partial f_L}{\partial \mathbf{a}_k^i} =
+    2 \mathbf{R}_\mathbf{X} \mathbf{a}_k^i^T + \mathbf{g}_k \lambda^T = 0 \implies
+    \mathbf{a}_k^i^T = - \frac{1}{2}\mathbf{R}_\mathbf{X}^{-1} \mathbf{g}_k \lambda^T
+\end{equation}
+
+Используя ограничение $\mathbf{g}_k^T \mathbf{a}_k^i^T = \mathbf{1}_i$, выразим $\labmda$:
+
+\begin{equation}
+    \mathbf{g}_k^T \mathbf{a}_k^i^T = \mathbf{1}_i =
+    - \frac{1}{2}\mathbf{g}_k^T\mathbf{R}_\mathbf{X}^{-1} \mathbf{g}_k \lambda^T \implies
+    \lambda^T = - 2(\mathbf{g}_k^T\mathbf{R}_\mathbf{X}^{-1} \mathbf{g}_k)^{-1} \mathbf{1}_i
+\end{equation}
+
+Окончательно, для $i$-го фильтра будем иметь
+
+\begin{equation}
+    \mathbf{a}_k^i^T = \mathbf{R}_\mathbf{X}^{-1} \mathbf{g}_k(\mathbf{g}_k^T\mathbf{R}_\mathbf{X}^{-1} \mathbf{g}_k)^{-1} \mathbf{1}_i
+    \label{lcmv_filters_vec_comp}
+\end{equation}
+
+Или, комбинируя все три фильтра в одной векторной записи и транспонируя:
+
+\begin{equation}
+    \mathbf{A}_k =
+    (\mathbf{G}_k^T\mathbf{R}_\mathbf{X}^{-1} \mathbf{G}_k)^{-1} \mathbf{G}_k^T \mathbf{R}_\mathbf{X}^{-1}
+    \label{lcmv_filters_vec}
+\end{equation}
 
 \subsubsection{DICS}
-Рассмотрим теперь одну важную модификацию алгоритма бимформеров,
+Рассмотрим теперь одну важную модификацию метода векторных бимформеров,
 разработанную для анализа коннективностей~\ref{DICS}.
 
 Суть метода состоит в построении адаптивных фильтров в частотной области.
@@ -607,12 +759,11 @@ $\mathbf{A}_k \mathbf{X}\mathbf{X}^T \mathbf{A}_k^T$,
 \end{equation}
 
 
-Применим к данным частотно-временное преобразование и посчитаем кросс-спектр по аналогии с
-\ref{gm_timefreq} и \ref{gm_cp_matr}:
+Применим к данным частотно-временное преобразование и посчитаем кросс-спектр по аналогии
+с~\ref{gm_timefreq} и~\ref{gm_cp_matr}:
 
 \begin{gather}
-    \hat{\mathbf{x}}_{k,f_i}(t) = \mathbf{G} \cdot \hat{\mathbf{s}}_{k,f_i}(t) + \hat{\mathbf{\omega}}_{k,f_i}(t)\\
-    \Cp{x}(t) = \mathbf{G} \Cp{s}(t) \mathbf{G}^T + \Cp{\omega}(t)
+    \Cp{x} = \mathbf{G} \Cp{s} \mathbf{G}^T + \Cp{\omega}
     \label{gm_cp_matr}
 \end{gather}
 
@@ -620,11 +771,21 @@ $\mathbf{A}_k \mathbf{X}\mathbf{X}^T \mathbf{A}_k^T$,
 Оптимизационная задача метода DICS формализуется следующим образом:
 
 \begin{equation}
-    \underset{\mathbf{A}_k}{min}\left(
-        \Expect{\norm{\mathbf{A}_k \hat{\mathbf{X}}}^2} + \lambda \norm{\mathbf{A}_k}^2
-    \right), s.t.: \mathbf{A}_k \mathbf{g}_k = \mathbf{I}
+    \tr\left\{\mathbf{A}_k \Cp{X} \mathbf{A}_k^T\right\} +
+     \alpha \tr\left\{\mathbf{A}_k \mathbf{A}_k^T\right\})
+    \rightarrow \underset{\mathbf{A}_k}{\min}
+    , s.t.: \mathbf{A}_k \mathbf{G}_k = \mathbf{I}
 \end{equation}
 
-Оптимизационный критерий аналогичен критерию для фильтра, минимизирующего вклад от
-третих источников из предыдущего раздела. Здесь идет речь о том, что частотный образ
+Оптимизационный критерий аналогичен критерию из предыдущего раздела
+для векторной постановки задачи адаптивной фильтрации,
+минимизирующей вклад от третих источников, c добавлением регуляризации матрицы кросс-спектра.
 
+Проводя покомпонентный вывод методом множителей Лагранжа по аналогии с
+выводом формул~\ref{lcmv_filters_vec_comp},~\ref{lcmv_filters_vec}, получим
+выражения для фильтров в следующем виде:
+
+\begin{equation}
+    \mathbf{A}_k =
+    (\mathbf{G}_k^T(\Cp{X} + \alpha \mathbf{I})^{-1} \mathbf{G}_k)^{-1} \mathbf{G}_k^T (\Cp{X} + \alpha \mathbf{I})^{-1}
+\end{equation}
