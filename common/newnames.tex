@@ -52,14 +52,22 @@
 \newcommand*\Laplace{\Delta}
 
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
-
+\DeclarePairedDelimiter\set\{\}
 \DeclareMathOperator{\tr}{tr}
 \DeclareMathOperator{\coh}{coh}
 \DeclareMathOperator{\sign}{sign}
-\def\D{\mathrm{d}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\prox}{prox}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\def\D{\mathrm{d}}  % differential
 
 % matrices and vectors typesetting
 \newcommand{\mG}{\mathbf{G}} % matrix G
 \newcommand{\vs}{\mathbf{s}} % vector s
 \newcommand{\vx}{\mathbf{x}} % vector x
 \newcommand{\vomega}{\boldsymbol{\omega}} % vector omega
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\matr}[1]{\mathbf{#1}}
