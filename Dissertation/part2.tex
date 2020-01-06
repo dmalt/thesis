@@ -1525,17 +1525,17 @@ soft thresholding.
 Используя оператор приближения, для функционалов вида
 
 \begin{equation}
-    f(\vec{\hat{s}}) = \norm{\vec{x}_{noisy} - \matr{G}\vec{\hat{s}}}^2_{L_2} + \alpha f_2(\vec{\hat{s}})
+    f(\vec{\hat{s}}) = \norm{\vec{x}_{noisy} - \matr{G}\vec{\hat{s}}}^2_{L_2} + \alpha f_{norm}(\vec{\hat{s}})
     \rightarrow \underset{\vec{\hat{s}}}{\min}.
     \label{eq:abstract_reg_func_crit}
 \end{equation}
 
 можем выписать в общем виде выражение для вычисления следующего шага
-MM-алгоритма с произвольным выпуклым регуляризатором $f_2$:
+MM-алгоритма с произвольным выпуклым регуляризатором $f_{norm}$:
 
 \begin{equation}
     \vec{\hat{s}_{k+1}} =
-    \prox_{\frac{\alpha}{\beta} f_2}\left(\vec{\hat{s}_k + \frac{1}{\beta} G^T(x_{noisy} - G \hat{s}_k)}\right)
+    \prox_{\frac{\alpha}{\beta} f_{norm}}\left(\vec{\hat{s}_k + \frac{1}{\beta} G^T(x_{noisy} - G \hat{s}_k)}\right)
     \label{eq:mm_next_iter_prox}
 \end{equation}
 
@@ -1685,10 +1685,55 @@ $\norm{\matr{\tilde{S}}_{i,:}} > \frac{c}{2}$, получим
 С использованием этих определений можем переписать двойственную функцию как
 
 \begin{equation}
-    g(\vec{\lambda}) = f_2_{\star}(\vec{\lambda}) - f_1^{\star}(\matr{G}^T\vec{\lambda})
+    g(\vec{\lambda}) =
+    (f_2)_{\star}(\vec{\lambda}) - (f_1)^{\star}(\matr{G}^T\vec{\lambda})
     \label{eq:dual_conjugates}
 \end{equation}
 
+Распишем, чему равно выражение \ref{eq:dual_conjugates} для функционала вида \ref{eq:abstract_reg_func_crit}.
+В этом случае $f_1(\matr{X}) = \alpha f_{norm}(\vec{X})$, а $f_2(\matr{X}) = - \frac{1}{2}\norm{\matr{M} - \matr{X}}_{L_2}^2$.
+Действовать будем по аналогии с выводом формулы для разрыва двойственности из статьи \cite{gramfort_2012}.
+
+Воспользуемся правилами вычисления сопряжений для произведения функции на константу~\cite{Boyd}: $(c f)^{\star}(\vec{\lambda}) = c f^{\star}(\lambda / c)$.
+Получим
+\begin{equation}
+    (f_1)^{\star}(\matr{G}^T\vec{\lambda}) =
+    \alpha (f_{norm})^{\star}(\matr{G^T\lambda}/\alpha)
+\end{equation}
+
+Выпишем теперь в явном виде, чему равно сопряжение от $f_2$:
+\begin{equation*}
+    (f_2)^{\star}(\vec{\lambda}) =
+    \inf_{\matr{X}}(\trace(\matr{\lambda}^T\matr{X}) + \frac{1}{2}\norm{\matr{M} - \matr{X}}_{L_2}^2) =
+    - \sup_{\matr{X}}(- \trace(\matr{\lambda}^T\matr{X}) - \frac{1}{2}\norm{\matr{M} - \matr{X}}_{L_2}^2)
+\end{equation*}
+Проведём замену переменной $\matr{Z} = \matr{M} - \matr{X}$:
+\begin{equation}
+    (f_2)^{\star}(\vec{\lambda}) =
+    \trace(\matr{\lambda}^T\matr{M}) - \sup_{\matr{X}}(\trace(\matr{\lambda}^T\matr{Z}) - \frac{1}{2}\norm{\matr{Z}}_{L_2}^2)
+    \label{eq:conjugate_f_2}
+\end{equation}
+Супремум в правой части выражения \ref{eq:conjugate_f_2} представляет собой выпуклое сопряжение
+от квадрата нормы $L_2$. Сопряжение половины квадрата нормы равно половине квадрата её двойственной нормы,~\cite{Boyd, gramfort_2012}.
+Нормы $L_p$ и $L_{p^{\prime}}$ называются двойственными друг к другу, если для них выполнено $\frac{1}{p} + \frac{1}{p^{\prime}} = 1$.
+Норма $L_2$ в соответствии с этим определением является двойственной к самой себе. Получаем
+\begin{equation}
+    (f_2)^{\star}(\vec{\lambda}) =
+    \trace(\matr{\lambda}^T\matr{M}) - \frac{1}{2}\norm{\matr{\lambda}}^2_{L_2}
+\end{equation}
+
+Тогда двойственная функция запишется как 
+\begin{equation}
+    g(\vec{\lambda}) =
+    \trace(\matr{\lambda}^T\matr{M}) - \frac{1}{2}\norm{\matr{\lambda}}^2_{L_2} + \alpha (f_{norm})^{\star}(\matr{G^T\lambda}/\alpha)
+\end{equation}
+
+В случае $f_{norm} = \norm{\cdot}_{L_21}$, сопряженная функция будет выглядеть как (\cite{gramfort_2012}):
+
+\begin{equation}
+    (\norm{\cdot}_{L_{21}})^{\star} = 
+\end{equation}
+% ----------------------------------------------------------- %
 
 Рассмотренная нами задача является выпуклой и содержит только
 ограничения-равенства, а значит для нее выполнены условия Слейтера (при
@@ -1700,7 +1745,9 @@ $\norm{\matr{\tilde{S}}_{i,:}} > \frac{c}{2}$, получим
     \inf_{\vec{x}, \vec{y}}(f_1(\vec{x}) - f_2(\vec{y})) = \sup_{\vec{\lambda}}(g(\vec{\lambda})) =
     \sup_{\vec{\lambda}}((f_2)_{\star}(\vec{\lambda}) - (f_1)^{\star}(\matr{G}^T\vec{\lambda})) = \tilde{p},
 \end{equation}
-где $\tilde{p}$ --- значение исходного функционала в точке минимума. Обозначим
+где $\tilde{p}$ --- значение исходного функционала в точке минимума.
+
+Обозначим
 $\tilde{\vec{\lambda}}$ оптимальное значение двойственной переменной. Тогда,
 так как оптимальное значение исходного функционала достигается в точке минимума
 функции Лагранжа с зафиксированной $\lambda = \tilde{\lambda}$, т.е.
