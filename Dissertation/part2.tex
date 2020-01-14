@@ -871,7 +871,7 @@ $\mG^\dagger = {(\mG^T\mG)}^{-1}\mG^T$, поскольку $\mG^T\mG$ обрат
 На языке оптимизации такую задачу можно сформулировать как
 
 \begin{equation}
-    \norm{\vs}^2 \rightarrow \underset{\vs}{\min},
+    \frac{1}{2}\norm{\vs}^2 \rightarrow \underset{\vs}{\min},
     s.t.: \mG \vs = \vx
     \label{pinv_opt_criterion}
 \end{equation}
@@ -885,7 +885,7 @@ $\mG^\dagger = {(\mG^T\mG)}^{-1}\mG^T$, поскольку $\mG^T\mG$ обрат
 Выпишем функцию Лагранжа для оптимизационной задачи~\ref{pinv_opt_criterion}:
 
 \begin{equation}
-    f_L(\vec{s}, \lambda) = \norm{\vs}^2 + \lambda \left(\mathbf{Gs - x}\right)
+    f_L(\vec{s}, \lambda) = \frac{1}{2}\norm{\vs}^2 + \lambda \left(\mathbf{Gs - x}\right)
 \end{equation}
 
 Выпишем и приравняем частные производные лагранжиана по каждой из переменных:
@@ -893,7 +893,7 @@ $\mG^\dagger = {(\mG^T\mG)}^{-1}\mG^T$, поскольку $\mG^T\mG$ обрат
 \begin{gather}
     \frac{\partial f_L(\vec{s}, \lambda)}{\partial \lambda} = \mathbf{Gs - x} = 0
     \label{dL_first} \\
-    \frac{\partial f_L(\vec{s}, \lambda)}{\partial \vec{s}} = 2\vec{s}
+    \frac{\partial f_L(\vec{s}, \lambda)}{\partial \vec{s}} = \vec{s}
     + \mathbf{G}^T\vec{\lambda} = 0
     \label{dL_second}
 \end{gather}
@@ -902,16 +902,16 @@ $\mG^\dagger = {(\mG^T\mG)}^{-1}\mG^T$, поскольку $\mG^T\mG$ обрат
 полученное выражение в~\ref{dL_first}:
 
 \begin{gather}
-    \vec{s} = - \frac{1}{2} \mathbf{G^T}\lambda
+    \vec{s} = - \mathbf{G^T}\lambda
     \label{dL_second_s_expressed}\\
-    \mathbf{Gs} = - \frac{1}{2} \mathbf{G} \mathbf{G}^T\lambda = \vec{x}
+    \mathbf{Gs} = - \mathbf{G} \mathbf{G}^T\lambda = \vec{x}
     \label{dL_second_to_first}
 \end{gather}
 
 Из~\ref{dL_second_to_first} получим выражение для $\lambda$:
 
 \begin{equation}
-    \lambda = - 2 {(\mathbf{G}\mathbf{G}^T)}^{-1}\vec{x}
+    \lambda = - {(\mathbf{G}\mathbf{G}^T)}^{-1}\vec{x}
     \label{pinv_lambda_expression}
 \end{equation}
 
@@ -1021,7 +1021,7 @@ ${(\mathbf{G}\mathbf{G}^T)}^{-1}$:
 как решение следующей задачи оптимизации:
 
 \begin{equation}
-    \norm{\mathbf{G\hat{s} - x}_{noisy}}^2 + \alpha\norm{\vec{\hat{s}}}^2 \rightarrow \underset{\vec{\hat{s}}}{\min}
+    \frac{1}{2}\norm{\mathbf{G\hat{s} - x}_{noisy}}^2 + \frac{1}{2}\alpha\norm{\vec{\hat{s}}}^2 \rightarrow \underset{\vec{\hat{s}}}{\min}
     \label{MNE_optimization_crit}
 \end{equation}
 
@@ -1086,7 +1086,7 @@ $\vec{x}_{noisy}$ будет такое, которое максимизируе
 \begin{equation}
     \vec{\hat{s}} =
     \underset{\vec{s}}{argmax} \left(
-        e^{-\norm{\vec{Gs - x}_{noisy}}^2} e^{-\alpha\norm{\vec{s}}^2}
+        e^{-\frac{1}{2}\norm{\vec{Gs - x}_{noisy}}^2} e^{-\frac{1}{2}\alpha\norm{\vec{s}}^2}
     \right)
     \label{MAP_crit_for_MNE}
 \end{equation}
@@ -1097,7 +1097,7 @@ $\vec{x}_{noisy}$ будет такое, которое максимизируе
 \begin{equation}
     \vec{\hat{s}} =
     \underset{\vec{s}}{argmin} \left(
-        \norm{\vec{Gs - x}_{noisy}}^2 + \alpha\norm{\vec{s}}^2
+        \frac{1}{2}\norm{\vec{Gs - x}_{noisy}}^2 + \frac{1}{2}\alpha\norm{\vec{s}}^2
     \right)
     \label{logMAP_crit_for_MNE}
 \end{equation}
@@ -1160,7 +1160,7 @@ MNE как правило распределена по области, свои
 качества решения по аналогии с~\ref{MNE_optimization_crit} запишется в виде
 
 \begin{equation}
-    \norm{\mathbf{G\hat{s} - x}_{noisy}}^2_{L_2} + \alpha\norm{\vec{\hat{s}}}_{L_0}
+    \frac{1}{2}\norm{\mathbf{G\hat{s} - x}_{noisy}}^2_{L_2} + \alpha\norm{\vec{\hat{s}}}_{L_0}
     \rightarrow \underset{\vec{\hat{s}}}{\min}.
     \label{l0_optimization_crit}
 \end{equation}
@@ -1270,7 +1270,7 @@ MCE, не являются гладкими: для соседних време�
 времени $t$:
 
 \begin{equation}
-    \norm{\mathbf{G\hat{s}}(t) - \vec{x}_{noisy}(t)}^2_{L_2} + \alpha\sum_i\abs{\hat{s_i}(t)}
+    \frac{1}{2}\norm{\mathbf{G\hat{s}}(t) - \vec{x}_{noisy}(t)}^2_{L_2} + \alpha\sum_i\abs{\hat{s_i}(t)}
     \rightarrow \underset{\vec{\hat{s}}}{\min}.
     \label{l1_optimization_crit}
 \end{equation}
@@ -1282,7 +1282,7 @@ MCE, не являются гладкими: для соседних време�
 функционал качества можно записать как
 
 \begin{equation}
-    \norm{\mathbf{G\hat{S}} - \mathbf{X}_{noisy}}^2_{L_2} + \alpha\sum_{i,j}\abs{\hat{S}_{i,j}}
+    \frac{1}{2}\norm{\mathbf{G\hat{S}} - \mathbf{X}_{noisy}}^2_{fro} + \alpha\sum_{i,j}\abs{\hat{S}_{i,j}}
     \rightarrow \underset{\vec{\hat{s}}}{\min},
     \label{l1_optimization_crit_matrix}
 \end{equation}
@@ -1369,7 +1369,7 @@ $\vec{x}$). Рассмотрим этот случай, так как он по�
 статье~\cite{gramfort_2012}.  Запишем сначала функционал качества:
 
 \begin{equation}
-    f(\vec{\hat{s}}) = \norm{\vec{\hat{s} - x}_{noisy}}^2_{L_2} + \alpha\norm{\vec{\hat{s}}}_{L_1}
+    f(\vec{\hat{s}}) = \frac{1}{2}\norm{\vec{\hat{s} - x}_{noisy}}^2_{L_2} + \alpha\norm{\vec{\hat{s}}}_{L_1}
     \rightarrow \underset{\vec{\hat{s}}}{\min}.
     \label{eq:denoising_crit}
 \end{equation}
@@ -1381,7 +1381,7 @@ $\vec{x}$). Рассмотрим этот случай, так как он по�
 вида
 
 \begin{equation}
-    y_i = {(\hat{s}_i - x_i)} ^ 2 + \alpha \abs{\hat{s}_i}
+    y_i = \frac{1}{2}{(\hat{s}_i - x_i)} ^ 2 + \alpha \abs{\hat{s}_i}
     \label{eq:componentwise_soft_thresh_crit}
 \end{equation}
 
@@ -1391,15 +1391,15 @@ $\vec{x}$). Рассмотрим этот случай, так как он по�
 Для каждого из слагаемых $y_i$ везде кроме $\hat{s}_i = 0$ выражение \ref{eq:componentwise_soft_thresh_crit} является дифференцируемым.
 Поэтому для $\hat{s}_i \neq 0$ условие $0 \in \partial y_i$ эквивалентно равенству нулю производной по $\hat{s_i}$:
 \begin{equation}
-    \frac{\D y_i}{\D \hat{s_i}} = 2(\hat{s_i} - x_i) + \alpha \sign(\hat{s_i}) = 0\\
+    \frac{\D y_i}{\D \hat{s_i}} = (\hat{s_i} - x_i) + \alpha \sign(\hat{s_i}) = 0\\
 \end{equation}
 
-С учетом ограниений на знак $\hat{s}_i$ получим, что $\hat{s}_i = x_i - \alpha/2$, если
-$x_i > \alpha / 2$, и $\hat{s}_i = x_i + \alpha / 2$, если $x_i < \alpha/2$
+С учетом ограниений на знак $\hat{s}_i$ получим, что $\hat{s}_i = x_i - \alpha$, если
+$x_i > \alpha$, и $\hat{s}_i = x_i + \alpha$, если $x_i < \alpha$
 
 В случае $\hat{s}_i = 0$ субдифференциал \ref{eq:componentwise_soft_thresh_crit} является отрезком
-$\left[-2 x_i - \alpha, -2 x_i + \alpha\right]$. Этот отрезок содержит ноль тогда и только тогда, когда
-$\abs{x_i} \leq \alpha/2$. То есть, если $\abs{x_i} \leq \alpha/2$, значение $\hat{s}_i = 0$ является
+$\left[-x_i - \alpha, -x_i + \alpha\right]$. Этот отрезок содержит ноль тогда и только тогда, когда
+$\abs{x_i} \leq \alpha$. То есть, если $\abs{x_i} \leq \alpha$, значение $\hat{s}_i = 0$ является
 оптимальным.
 
 Окончательно получим, что для $\hat{s}_i$ возможно три значения
@@ -1407,23 +1407,23 @@ $\abs{x_i} \leq \alpha/2$. То есть, если $\abs{x_i} \leq \alpha/2$, з
 \begin{equation}
     \hat{s_i}=h(x_i, \alpha) =
     \begin{cases}
-        x_i - \frac{\alpha}{2},&  x_i > \frac{\alpha}{2}\\
-        0,              &  \abs{x_i} \leq \frac{\alpha}{2}\\
-        x_i + \frac{\alpha}{2},              &  x_i < -\frac{\alpha}{2}
+        x_i - \alpha,   &  x_i > \alpha\\
+        0,              &  \abs{x_i} \leq \alpha\\
+        x_i + \alpha,   &  x_i < -\alpha
     \end{cases}
 \end{equation}
 
 Отметим также, что оператор $h(x, c)$ может быть переписан в более компактной форме:
 
 \begin{equation}
-    h(x, c) = x\left(1 - \frac{c}{2\abs{x}}\right)^{+} \text{, где } (\cdot)^{+} \stackrel{def}{=} \max(\cdot, 0)
+    h(x, c) = x\left(1 - \frac{c}{\abs{x}}\right)^{+} \text{, где } (\cdot)^{+} \stackrel{def}{=} \max(\cdot, 0)
     \label{eq:soft_thresh_compact}
 \end{equation}
 
 Таким образом, в рассмотренной нами простейшей постановке применение
 $L_1$-регуляризатора порождает решения, которые получаются из измерений
 покомпонентным применением оператора $h(x, c)$, который обнуляет компоненты
-вектора измерений, не превосходящие по амплитуде порог $c/2$.  Такой оператор
+вектора измерений, не превосходящие по амплитуде порог $c$.  Такой оператор
 известен в литературе под названием soft thresholding.
 
 \subsubsection{Оптимизация методом ISTA.}
@@ -1455,14 +1455,14 @@ ISTA (iterative shrinkage thresholding algorithm).
 Чтобы получить функцию, обладающую искомыми свойствами, достаточно добавить к
 исходной функции $f$ неотрицательное слагаемое, которое обращается в ноль в
 точке $\vec{\hat{s}_k}$.  В качестве такого слагаемого возьмем выражение
-$(\vec{s - \hat{s}_k})^T (\beta\mathbf{I - G^TG})(\vec{s - \hat{s}_k})$,
+$\frac{1}{2}(\vec{s - \hat{s}_k})^T (\beta\mathbf{I - G^TG})(\vec{s - \hat{s}_k})$,
 выбрав для $\beta$ значение, превосходящее максимальное собственное число матрицы
 $\mathbf{G^TG}$, чтобы гарантировать положительность. Раскрыв скобки и приведя подобные
 слагаемые и выделив полный квадрат, получим для $g_k$ выражение
 
 \begin{equation}
     g_k(\vec{s}) =
-    \beta\norm{\vec{\hat{s}_k + \frac{1}{\beta} G^T(x_{noisy} - G \hat{s}_k) - s}}^2_{L_2} + \frac{\alpha}{\beta}\norm{\vec{s}}_{L_1} + C,
+    \frac{1}{2}\norm{\vec{\hat{s}_k + \frac{1}{\beta} G^T(x_{noisy} - G \hat{s}_k) - s}}^2_{L_2} + \frac{\alpha}{\beta}\norm{\vec{s}}_{L_1} + C,
 \end{equation}
 
 где в $C$ сгруппированы слагаемые, которые не зависят от $\vec{s}$ и
@@ -1511,7 +1511,7 @@ $\vec{\hat{s}_k}$ сходится к искомому минимуму функ
 operator или proximal operator):
 
 \begin{equation}
-    \prox_{c f_2}(\vec{y}) = \argmin_{\vec{x}}\left(\norm{\vec{x - y}}^2_{L_2} + c f_2(\vec{x})\right)
+    \prox_{c f_2}(\vec{y}) = \argmin_{\vec{x}}\left(\frac{1}{2}\norm{\vec{x - y}}^2_{L_2} + c f_2(\vec{x})\right)
     \label{eq:prox_operator_def}
 \end{equation}
 
@@ -1525,7 +1525,7 @@ soft thresholding.
 Используя оператор приближения, для функционалов вида
 
 \begin{equation}
-    f(\vec{\hat{s}}) = \norm{\vec{x}_{noisy} - \matr{G}\vec{\hat{s}}}^2_{L_2} + \alpha f_{norm}(\vec{\hat{s}})
+    f(\vec{\hat{s}}) = \frac{1}{2}\norm{\vec{x}_{noisy} - \matr{G}\vec{\hat{s}}}^2_{L_2} + \alpha f_{norm}(\vec{\hat{s}})
     \rightarrow \underset{\vec{\hat{s}}}{\min}.
     \label{eq:abstract_reg_func_crit}
 \end{equation}
@@ -1546,8 +1546,8 @@ MM-алгоритма с произвольным выпуклым регуля�
 
 \begin{multline*}
     \prox_{c \norm{\cdot}_{L_{21}}}(\matr{\tilde{S}}) =
-    \argmin_{\matr{S}}\left(\norm{\matr{S - \tilde{S}}}^2_{fro} + c \norm{\matr{S}}_{L_{21}}\right)=\\
-    \argmin_{\matr{S}}\left(\norm{\matr{S - \tilde{S}}}^2_{fro} + c \sum_i \norm{\matr{S}_{i,:}}_{L_2}\right),
+    \argmin_{\matr{S}}\left(\frac{1}{2}\norm{\matr{S - \tilde{S}}}^2_{fro} + c \norm{\matr{S}}_{L_{21}}\right)=\\
+    \argmin_{\matr{S}}\left(\frac{1}{2}\norm{\matr{S - \tilde{S}}}^2_{fro} + c \sum_i \norm{\matr{S}_{i,:}}_{L_2}\right),
 \end{multline*}
 где $\matr{S}_{i,:}$ обозначает $i$-ую строку матрицы $\matr{S}$ или, что то же
 самое, временной ряд $i$-го источника.
@@ -1557,8 +1557,8 @@ MM-алгоритма с произвольным выпуклым регуля�
 (если это не выполняется, для компонент вектора $\matr{\tilde{S}}_{i,:}$ получаем тривиальное решение):
 
 \begin{gather}
-    2 (s_{ij} - \tilde{s}_{ij}) + c \frac{s_{ij}}{\norm{\matr{S}_{i,:}}} = 0\\
-    \tilde{s}_{ij} = s_{ij} \left(1 + \frac{c}{2\norm{\matr{S}_{i,:}}}\right)
+    (s_{ij} - \tilde{s}_{ij}) + c \frac{s_{ij}}{\norm{\matr{S}_{i,:}}} = 0\\
+    \tilde{s}_{ij} = s_{ij} \left(1 + \frac{c}{\norm{\matr{S}_{i,:}}}\right)
     \label{eq:intermediate_prox_l21}
 \end{gather}
 
@@ -1568,22 +1568,22 @@ $\norm{\matr{\tilde{S}}_{i,:}}$:
 
 \begin{equation}
     \norm{\matr{\tilde{S}_{i,:}}}^2 =
-    \norm{\matr{S}_{i,:}}^2 \left( 1 + \frac{c}{2\norm{\matr{S}_{i,:}}}\right)^2 =
-    \left( \norm{\matr{S}_{i,:}}+ \frac{c}{2}\right)^2
+    \norm{\matr{S}_{i,:}}^2 \left( 1 + \frac{c}{\norm{\matr{S}_{i,:}}}\right)^2 =
+    \left( \norm{\matr{S}_{i,:}}+ c\right)^2
 \end{equation}
 
 Откуда
 \begin{equation}
-    \norm{\matr{S}_{i,:}} = \norm{\matr{\tilde{S}}_{i,:}} - \frac{c}{2}
+    \norm{\matr{S}_{i,:}} = \norm{\matr{\tilde{S}}_{i,:}} - c
     \label{eq:intermediate1_prox_l21}
 \end{equation}
 
 Подставляя~\ref{eq:intermediate1_prox_l21} в \ref{eq:intermediate_prox_l21}, а
 также учитывая, что так как $\norm{\matr{S}_{i,:}} > 0$, всегда выполнено
-$\norm{\matr{\tilde{S}}_{i,:}} > \frac{c}{2}$, получим
+$\norm{\matr{\tilde{S}}_{i,:}} > c$, получим
 
 \begin{equation}
-    s_{ij} = \tilde{s}_{ij} \left( 1 - \frac{c}{2\norm{\matr{\tilde{S}}_{i,:}}} \right)^{+}
+    s_{ij} = \tilde{s}_{ij} \left( 1 - \frac{c}{\norm{\matr{\tilde{S}}_{i,:}}} \right)^{+}
     \text{, где } (\cdot)^{+} \stackrel{def}{=} \max(\cdot, 0)
 \end{equation}
 
@@ -1592,7 +1592,7 @@ $\norm{\matr{\tilde{S}}_{i,:}} > \frac{c}{2}$, получим
 
 \begin{equation}
     \prox_{c\norm{\cdot}_{L_{21}}}(\matr{\tilde{S}}) =
-    \diag \set[\Bigg]{\left( 1 - \frac{c}{2\norm{\matr{\tilde{S}}_{i,:}}} \right) ^ {+}}_i \matr{\tilde{S}}
+    \diag \set[\Bigg]{\left( 1 - \frac{c}{\norm{\matr{\tilde{S}}_{i,:}}} \right) ^ {+}}_i \matr{\tilde{S}}
     \label{eq:proximity_operator_for_l21}
 \end{equation}
 
