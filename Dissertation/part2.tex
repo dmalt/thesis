@@ -1620,12 +1620,12 @@ $\norm{\matr{\tilde{S}}_{i,:}} > c$, получим
 Для начала запишем в общем виде оптимизируемый функционал качества:
 
 \begin{equation}
-    f_1(\vec{x}) - f_2(\matr{G}\vec{x}) \rightarrow \min_{\vec{x}}
+    f_1(\matr{X}) - f_2(\matr{G}\matr{X}) \rightarrow \min_{\matr{X}}
     \label{eq:dual_init_crit}
 \end{equation}
 
 Здесь функция $f_1$ является выпуклой, а функция $f_2$ --- вогнутой. Будем считать
-также, что $f_1$ и $f_2\circ\matr{G}$ определены всюду на $\mathbb{R}^n$.
+также, что $f_1$ и $f_2\circ\matr{G}$ определены всюду на $\mathbb{R}^{n\times m}$.
 При этом относительно дифференцируемости функций $f_1$, $f_2$ мы дополнительно
 ничего не предполагаем.
 
@@ -1634,8 +1634,8 @@ $\norm{\matr{\tilde{S}}_{i,:}} > c$, получим
 
 \begin{equation}
     \begin{gathered}
-        f_1(\vec{x}) - f_2(\matr{G}\vec{y}) \rightarrow \min_{\vec{x,y}}\\
-        \text{s.t.: } \vec{y} = \matr{G}\vec{x}
+        f_1(\matr{X}) - f_2(\matr{G}\matr{Y}) \rightarrow \min_{\matr{X},\matr{Y}}\\
+        \text{s.t.: } \matr{Y} = \matr{G}\matr{X}
     \end{gathered}
     \label{eq:dual_crit_split}
 \end{equation}
@@ -1644,7 +1644,7 @@ $\norm{\matr{\tilde{S}}_{i,:}} > c$, получим
 Для этой оптимизационной задачи~\ref{eq:dual_crit_split} можем выписать функцию Лагранжа:
 
 \begin{equation}
-    L(\vec{x}, \vec{y}, \vec{\lambda}) = f_1(\vec{x}) - f_2(\vec{y}) + \vec{\lambda}^T(\vec{y} - \matr{G}\vec{x})
+    L(\matr{X}, \matr{Y}, \matr{\Lambda}) = f_1(\matr{X}) - f_2(\matr{Y}) + \trace(\matr{\Lambda}^T(\matr{Y} - \matr{G}\matr{X}))
     \label{eq:dual_lagrangian}
 \end{equation}
 
@@ -1653,16 +1653,16 @@ $\norm{\matr{\tilde{S}}_{i,:}} > c$, получим
 равная инфимуму от функции Лагранжа в каждой точке:
 
 \begin{equation}
-    g(\vec{\lambda}) = \inf_{\vec{x, y}} L(\vec{x}, \vec{y}, \lambda)
+    g(\matr{\Lambda}) = \inf_{\matr{X}, \matr{Y}} L(\matr{X}, \matr{Y}, \matr{\Lambda})
     \label{eq:dual_dual_func_def}
 \end{equation}
 
 Распишем, чему равна двойственная функция для Лагранжиана~\ref{eq:dual_lagrangian}:
 
 \begin{multline}
-    g(\vec{\lambda}) = \inf_{\vec{x}, \vec{y}} (f_1(\vec{x}) - f_2(\vec{y}) - \vec{\lambda}^T(\matr{G}\vec{x} - \vec{y}))
-    = \inf_{\vec{x}, \vec{y}} \left( (\vec{\lambda}^T \vec{y} - f_2(\vec{y})) - (\vec{\lambda}^T \matr{G}\vec{x} - f_1(\vec{x}))\right) =\\
-    = \inf_{\vec{y}}(\vec{\lambda}^T \vec{y} - f_2(\vec{y})) - \sup_{\vec{x}}((\matr{G}^T\vec{\lambda})^T \vec{x} - f_1(\vec{x}))
+    g(\matr{\Lambda}) = \inf_{\matr{X}, \matr{Y}} (f_1(\matr{X}) - f_2(\matr{Y}) - \trace(\matr{\Lambda}^T(\matr{G}\matr{X} - \matr{Y}))) =\\
+    = \inf_{\matr{X}, \matr{Y}} \left( (\trace(\matr{\Lambda}^T \matr{Y}) - f_2(\matr{Y})) - (\trace(\matr{\Lambda}^T \matr{G}\matr{X}) - f_1(\matr{X}))\right) =\\
+    = \inf_{\matr{Y}}(\trace(\matr{\Lambda}^T \matr{Y}) - f_2(\matr{Y})) - \sup_{\matr{X}}((\trace(\matr{G}^T\matr{\Lambda})^T \matr{X}) - f_1(\matr{X}))
     \label{eq:dual_derive_lagrangian}
 \end{multline}
 
@@ -1671,11 +1671,11 @@ $\norm{\matr{\tilde{S}}_{i,:}} > c$, получим
 
 
 В теории выпуклой оптимизации рассматривают выпуклую и вогнутую сопряженные функции,
-которые определяются для некоторой функции $f(\vec{x})$ как
+которые определяются для некоторой функции $f(\matr{X})$ как
 
 \begin{gather}
-    f^{\star}(\vec{y}) \stackrel{def}{=} \sup_{\vec{x}}(\vec{y}^T\vec{x} - f(\vec{x})) \text{ --- выпуклая сопряженная}\\
-    f_{\star}(\vec{y}) \stackrel{def}{=} \inf_{\vec{x}}(\vec{y}^T\vec{x} - f(\vec{x})) \text{ --- вогнутая сопряженная}
+    f^{\star}(\matr{Y}) \stackrel{def}{=} \sup_{\matr{X}}(\trace(\matr{Y}^T\matr{X}) - f(\matr{X})) \text{ --- выпуклая сопряженная}\\
+    f_{\star}(\matr{Y}) \stackrel{def}{=} \inf_{\matr{X}}(\trace(\matr{Y}^T\matr{X}) - f(\matr{X})) \text{ --- вогнутая сопряженная}
 \end{gather}
 
 Смысл названий этих функций в том, что первая из двух является выпуклой
@@ -1685,53 +1685,59 @@ $\norm{\matr{\tilde{S}}_{i,:}} > c$, получим
 С использованием этих определений можем переписать двойственную функцию как
 
 \begin{equation}
-    g(\vec{\lambda}) =
-    (f_2)_{\star}(\vec{\lambda}) - (f_1)^{\star}(\matr{G}^T\vec{\lambda})
+    g(\matr{\Lambda}) =
+    (f_2)_{\star}(\matr{\Lambda}) - (f_1)^{\star}(\matr{G}^T\matr{\Lambda})
     \label{eq:dual_conjugates}
 \end{equation}
 
 Распишем, чему равно выражение \ref{eq:dual_conjugates} для функционала вида \ref{eq:abstract_reg_func_crit}.
-В этом случае $f_1(\matr{X}) = \alpha f_{norm}(\vec{X})$, а $f_2(\matr{X}) = - \frac{1}{2}\norm{\matr{M} - \matr{X}}_{L_2}^2$.
+В этом случае $f_1(\matr{X}) = \alpha f_{norm}(\matr{X})$, а $f_2(\matr{X}) = - \frac{1}{2}\norm{\matr{M} - \matr{X}}_{fro}^2$.
 Действовать будем по аналогии с выводом формулы для разрыва двойственности из статьи \cite{gramfort_2012}.
 
 Воспользуемся правилами вычисления сопряжений для произведения функции на константу~\cite{Boyd}: $(c f)^{\star}(\vec{\lambda}) = c f^{\star}(\lambda / c)$.
 Получим
 \begin{equation}
-    (f_1)^{\star}(\matr{G}^T\vec{\lambda}) =
-    \alpha (f_{norm})^{\star}(\matr{G^T\lambda}/\alpha)
+    (f_1)^{\star}(\matr{G}^T\matr{\Lambda}) =
+    \alpha (f_{norm})^{\star}(\matr{G^T\Lambda}/\alpha)
 \end{equation}
 
 Выпишем теперь в явном виде, чему равно сопряжение от $f_2$:
 \begin{equation*}
-    (f_2)^{\star}(\vec{\lambda}) =
-    \inf_{\matr{X}}(\trace(\matr{\lambda}^T\matr{X}) + \frac{1}{2}\norm{\matr{M} - \matr{X}}_{L_2}^2) =
-    - \sup_{\matr{X}}(- \trace(\matr{\lambda}^T\matr{X}) - \frac{1}{2}\norm{\matr{M} - \matr{X}}_{L_2}^2)
+    (f_2)^{\star}(\matr{\Lambda}) =
+    \inf_{\matr{X}}(\trace(\matr{\Lambda}^T\matr{X}) + \frac{1}{2}\norm{\matr{M} - \matr{X}}_{fro}^2) =
+    - \sup_{\matr{X}}(- \trace(\matr{\Lambda}^T\matr{X}) - \frac{1}{2}\norm{\matr{M} - \matr{X}}_{fro}^2)
 \end{equation*}
 Проведём замену переменной $\matr{Z} = \matr{M} - \matr{X}$:
 \begin{equation}
-    (f_2)^{\star}(\vec{\lambda}) =
-    \trace(\matr{\lambda}^T\matr{M}) - \sup_{\matr{X}}(\trace(\matr{\lambda}^T\matr{Z}) - \frac{1}{2}\norm{\matr{Z}}_{L_2}^2)
+    (f_2)^{\star}(\matr{\Lambda}) =
+    \trace(\matr{\Lambda}^T\matr{M}) - \sup_{\matr{X}}(\trace(\matr{\Lambda}^T\matr{Z}) - \frac{1}{2}\norm{\matr{Z}}_{fro}^2)
     \label{eq:conjugate_f_2}
 \end{equation}
 Супремум в правой части выражения \ref{eq:conjugate_f_2} представляет собой выпуклое сопряжение
-от квадрата нормы $L_2$. Сопряжение половины квадрата нормы равно половине квадрата её двойственной нормы,~\cite{Boyd, gramfort_2012}.
+от квадрата нормы Фробениуса. Сопряжение половины квадрата нормы равно половине квадрата её двойственной нормы,~\cite{Boyd, gramfort_2012}.
 Нормы $L_p$ и $L_{p^{\prime}}$ называются двойственными друг к другу, если для них выполнено $\frac{1}{p} + \frac{1}{p^{\prime}} = 1$.
-Норма $L_2$ в соответствии с этим определением является двойственной к самой себе. Получаем
+Норма Фробениуса в соответствии с этим определением является двойственной к самой себе, т.к. по форме совпадает с нормой $L_2$ для векторов, только в
+случае матриц берётся их векторизация. Получаем
 \begin{equation}
-    (f_2)^{\star}(\vec{\lambda}) =
-    \trace(\matr{\lambda}^T\matr{M}) - \frac{1}{2}\norm{\matr{\lambda}}^2_{L_2}
+    (f_2)^{\star}(\matr{\Lambda}) =
+    \trace(\matr{\Lambda}^T\matr{M}) - \frac{1}{2}\norm{\matr{\Lambda}}^2_{fro}
 \end{equation}
 
 Тогда двойственная функция запишется как 
 \begin{equation}
-    g(\vec{\lambda}) =
-    \trace(\matr{\lambda}^T\matr{M}) - \frac{1}{2}\norm{\matr{\lambda}}^2_{L_2} + \alpha (f_{norm})^{\star}(\matr{G^T\lambda}/\alpha)
+    g(\matr{\Lambda}) =
+    \trace(\matr{\Lambda}^T\matr{M}) - \frac{1}{2}\norm{\matr{\Lambda}}^2_{fro} - \alpha (f_{norm})^{\star}(\matr{G^T\Lambda}/\alpha)
+    \label{eq:dual_func}
 \end{equation}
 
 В случае $f_{norm} = \norm{\cdot}_{L_21}$, сопряженная функция будет выглядеть как (\cite{gramfort_2012}):
 
 \begin{equation}
-    (\norm{\cdot}_{L_{21}})^{\star} = 
+    (\norm{\cdot}_{L_{21}})^{\star}(\matr{\Lambda}) = 
+    \begin{cases}
+        0, & \norm{\matr{\Lambda}}_{L_{2,\infty}} \leq 1\\
+        \infty, & \norm{\matr{\Lambda}}_{L_{2,\infty}} > 1
+    \end{cases}
 \end{equation}
 % ----------------------------------------------------------- %
 
@@ -1742,22 +1748,23 @@ $\norm{\matr{\tilde{S}}_{i,:}} > c$, получим
 т.е. 
 
 \begin{equation}
-    \inf_{\vec{x}, \vec{y}}(f_1(\vec{x}) - f_2(\vec{y})) = \sup_{\vec{\lambda}}(g(\vec{\lambda})) =
-    \sup_{\vec{\lambda}}((f_2)_{\star}(\vec{\lambda}) - (f_1)^{\star}(\matr{G}^T\vec{\lambda})) = \tilde{p},
+    \inf_{\matr{X}, \matr{Y}}(f_1(\matr{X}) - f_2(\matr{Y})) = \sup_{\matr{\Lambda}}(g(\matr{\Lambda})) =
+    \sup_{\matr{\Lambda}}((f_2)_{\star}(\matr{\Lambda}) - (f_1)^{\star}(\matr{G}^T\matr{\Lambda})) = \tilde{p},
 \end{equation}
 где $\tilde{p}$ --- значение исходного функционала в точке минимума.
 
 Обозначим
-$\tilde{\vec{\lambda}}$ оптимальное значение двойственной переменной. Тогда,
-так как оптимальное значение исходного функционала достигается в точке минимума
-функции Лагранжа с зафиксированной $\lambda = \tilde{\lambda}$, т.е.
-$ \tilde{p} = \inf_{\vec{x}, \vec{y}}(L(\vec{x}, \vec{y}, \tilde{\vec{\lambda}})) =
-g(\tilde{\vec{\lambda}})$, для векторов $\tilde{\vec{x}},
-\tilde{\vec{y}}$, минимизирующих исходный функционал, должно быть выполнено
+$\tilde{\matr{\Lambda}}$ оптимальное значение двойственной переменной.
+Оптимальное значение исходного функционала достигается в точке минимума
+функции Лагранжа с зафиксированной $\Lambda = \tilde{\Lambda}$, т.е.
+$ \tilde{p} = \inf_{\matr{X}, \matr{Y}}(L(\matr{X}, \matr{Y}, \tilde{\matr{\Lambda}})) =
+g(\tilde{\matr{\Lambda}})$. Тода для матриц $\tilde{\matr{X}},
+\tilde{\matr{Y}}$, минимизирующих исходный функционал, с учётом $\tilde{\matr{Y}} =
+\matr{G}\tilde{\matr{X}}$ должно быть выполнено
 
 \begin{gather}
-    f_1(\tilde{\vec{x}}) + f_1^{\star}(\tilde{\vec{\lambda}}) = \tilde{\vec{\lambda}}^T\tilde{\vec{x}}\\
-    f_2(\tilde{\vec{y}}) + (f_2)_{\star}(\matr{G}^T\tilde{\vec{\lambda}}) = (\matr{G}^T\tilde{\vec{\lambda}})^T\tilde{\vec{y}}
+    f_1(\tilde{\matr{X}}) + (f_1)^{\star}(\matr{G}^T\tilde{\matr{\Lambda}}) = \trace(\tilde{(\matr{G}^T\matr{\Lambda}})^T\tilde{\matr{X}})\\
+    f_2(\matr{G}\tilde{\matr{X}}) + (f_2)_{\star}(\tilde{\matr{\Lambda}}) = \trace(\tilde{\matr{\Lambda}}^T\matr{G}\tilde{\matr{X}})
     \label{eq:dual_kkt_conditions}
 \end{gather}
 
