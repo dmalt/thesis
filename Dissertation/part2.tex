@@ -1238,12 +1238,12 @@ $\matr{\Gamma} \matr{\Gamma}^T$ приведет к чрезмерному уд�
     \label{eq:min_leakage_solution_sloreta}
 \end{equation}
 
-При такой нормировке применение фильтра $\vec{v}_{rs} = \matr{P} \vec{q}_{rs}$
+При такой нормировке применение фильтра $\vec{v}_{rs} = \matr{P} \vec{q}_{rs} / \norm{\matr{P} \vec{q}_{rs}}$
 к топографии $\vec{q}_{ij}$ по сравнению с фильтром $\vec{v}_{ij}$ будет выглядеть как
 \begin{equation}
     \frac{\vec{q}_{rs}^T\matr{P} \vec{q}_{ij}}{\norm{\matr{P}\vec{q}_{rs}}} =
     \norm{\matr{P} \vec{q}_{ij}} \cos(\matr{P}\vec{q}_{rs}, \matr{P} \vec{q}_{ij}) \leq
-    \frac{\vec{q}_{ij}^T\matr{P} \vec{q}_{ij}}{\norm{\matr{P}\vec{q}_{rs}}} =
+    \frac{\vec{q}_{ij}^T\matr{P} \vec{q}_{ij}}{\norm{\matr{P}\vec{q}_{ij}}} =
     \norm{\matr{P} \vec{q}_{ij}}
 \end{equation}
 
