@@ -1,9 +1,11 @@
 \thispagestyle{empty}
-
+\begin{center}%
+\thesisOrganization
+\end{center}%
 \noindent%
 \begin{tabularx}{\textwidth}{@{}lXr@{}}%
     & & \large{На правах рукописи}\\
-    \IfFileExists{images/HSE.png}{\includegraphics[height=2.5cm]{HSE.png}}{\rule[0pt]{0pt}{2.5cm}}  & &
+    % \IfFileExists{images/HSE.png}{\includegraphics[height=2.5cm]{HSE.png}}{\rule[0pt]{0pt}{2.5cm}}  & &
     \ifnumequal{\value{showperssign}}{0}{%
         \rule[0pt]{0pt}{1.5cm}
     }{
@@ -22,10 +24,10 @@
 \thesisTitle}
 
 \vspace{0pt plus3fill} %число перед fill = кратность относительно некоторого расстояния fill, кусками которого заполнены пустые места
-{\large Специальность \thesisSpecialtyNumber\ "---\par <<\thesisSpecialtyTitle>>}
+% {\large Специальность \thesisSpecialtyNumber\ "---\par <<\thesisSpecialtyTitle>>}
 
 \vspace{0pt plus1.5fill} %число перед fill = кратность относительно некоторого расстояния fill, кусками которого заполнены пустые места
-\Large{Автореферат}\par
+\Large{РЕЗЮМЕ}\par
 \large{диссертации на соискание учёной степени\par \thesisDegree}
 \end{center}
 
@@ -35,13 +37,18 @@
 \newpage
 % оборотная сторона обложки
 \thispagestyle{empty}
-\noindent Работа выполнена в {\thesisInOrganization}.
+\begin{center}
+    \small
+    \noindent Диссертационная работа выполнена в {\thesisInOrganization}
+\end{center}
 
-\vspace{0.008\paperheight plus1fill}
+% \vspace{0.004\paperheight plus1fill}
+\vspace{0.008\paperheight}
 \noindent%
 \begin{tabularx}{\textwidth}{@{}lX@{}}
-    Научный руководитель:   & \supervisorRegalia\par
-                              \textbf{\supervisorFio}
+    \textbf{Научный руководитель:}   & \supervisorFio\par
+                                       \supervisorRegalia
+                              
     \vspace{0.013\paperheight}\\
     % Официальные оппоненты:  &
     % \ifnumequal{\value{showopplead}}{0}{\vspace{13\onelineskip plus1fill}}{%
