@@ -594,12 +594,12 @@ $\mathbf{g}_k$ за счет увеличения нормы $\mathbf{a}_k$.
 в предположении отсутствия шума, а также считая, что количество активных
 источников $q$ меньше количества сенсоров $m$.  В таких предположениях матрица
 ковариации сигнала на сенсорах $\mathbf{R}_{\mathbf{X}}$ размером $m\times m$
-будет иметь ранг $q$, и следовательно будет являться необратимой.  Тем не
+будет иметь ранг $q$, и следовательно будет необратимой.  Тем не
 менее, ее можно приблизить псевдообратной матрицей.  Тогда, так как
 $\mathbf{R}_\mathbf{X} = \mathbf{G} \mathbf{R}_\mathbf{S} \mathbf{G}^T$
 
 \begin{equation}
-    \mathbf{R}_\mathbf{X}^{-1} \approx {(\mathbf{G} \mathbf{R}_\mathbf{X} \mathbf{G}^T)}^\dagger =
+    \mathbf{R}_\mathbf{X}^{-1} \approx {(\mathbf{G} \mathbf{R}_\mathbf{S} \mathbf{G}^T)}^\dagger =
     {(\mathbf{G}^\dagger)}^T \mathbf{R}_\mathbf{S}^\dagger \mathbf{G}^\dagger = 
     {(\mathbf{G}^\dagger)}^T \mathbf{R}_\mathbf{S}^{-1} \mathbf{G}^\dagger
 \end{equation}
