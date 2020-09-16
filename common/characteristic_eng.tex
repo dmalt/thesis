@@ -434,7 +434,7 @@ The purpose of this study is, therefore, to develop a method for estimating conn
 \end{itemize}
 as well as its validation in application to simulated MEG data.
 
-In order to achieve the set goal it was necessary to solve the following tasks {\tasks}:
+In order to achieve the set goal it was necessary to solve the following {\tasks}:
 \begin{enumerate}
   \item Develop a method of signal leakage removal.
   \item Explore the properties of signal cleaning techniques for networks with small and large phase shift; compare with the techniques described in the literature.
@@ -480,8 +480,7 @@ in electrophysiology.
   \item Based on the global IrMxNE optimization method and the proposed filter, a leak-resistant method was developed at the networks and sources levels. The former is provided by the sparse properties of the IrMxNE method, the latter~--- by the properties of the developed filter.
 \end{enumerate}
 
-{\reliability} 
-The reliability of the obtained results is provided by theoretical
+{\reliability} of the obtained results is provided by theoretical
 calculations, results of numerical modeling, comparison with other methods of
 phase connectivity estimation as well as validation of the developed method on
 real data.
@@ -515,9 +514,10 @@ author. In preparing articles and reports, the author relied on the assistance
 of co-authors and the scientific adviser.
 
 \ifnumequal{\value{bibliosel}}{0}{% Встроенная реализация с загрузкой файла через движок bibtex8
-    \publications\ Основные результаты по теме диссертации изложены в XX печатных изданиях,
-    X из которых изданы в журналах, рекомендованных ВАК,
-    X "--- в тезисах докладов.%
+    \publications\ The main results on the topic of the dissertation are
+    presented in XX printed publications, X of which are published in journals
+    recommended by the VAK, X"--- in theses of reports.
+%
 }{% Реализация пакетом biblatex через движок biber
 %Сделана отдельная секция, чтобы не отображались в списке цитированных материалов
     \begin{refsection}[vak,papers,conf]% Подсчет и нумерация авторских работ. Засчитываются только те, которые были прописаны внутри \nocite{}.
@@ -529,9 +529,10 @@ of co-authors and the scientific adviser.
         \nocite{%Порядок перечисления в этом блоке определяет порядок вывода в списке публикаций автора
                 PSIICOS, Neuropycon, Visbrain, Alamian_front2017, Alamian_clin2017%
         }%
-        \publications\ Основные результаты по теме диссертации изложены в~\arabic{citeauthor}~печатных изданиях,
-        \arabic{citeauthorvak} из которых изданы в журналах, рекомендованных ВАК,
-        \arabic{citeauthorconf} "--- в~тезисах докладов.
+        \publications\ The main results on the topic of the dissertation are
+    presented in~\arabic{citeauthor}~printed publications,
+        \arabic{citeauthorvak} of which are published in journals recommended by the VAK,
+        \arabic{citeauthorconf} "--- in~theses of reports.
     \end{refsection}
     \begin{refsection}[vak,papers,conf]%Блок, позволяющий отобрать из всех работ автора наиболее значимые, и только их вывести в автореферате, но считать в блоке выше общее число работ
         \printbibliography[heading=countauthorvak, env=countauthorvak, keyword=biblioauthorvak, section=2]%

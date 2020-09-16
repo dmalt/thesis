@@ -1,6 +1,8 @@
 %%% Основные сведения %%%
 \newcommand{\thesisAuthorLastName}{Алтухов}
 \newcommand{\thesisAuthorOtherNames}{Дмитрий Игоревич}
+\newcommand{\thesisAuthorLastNameEng}{Altukhov}
+\newcommand{\thesisAuthorOtherNamesEng}{Dmitrii}
 \newcommand{\thesisAuthorInitials}{Д.\,И.}
 \newcommand{\thesisAuthor}             % Диссертация, ФИО автора
 {%
@@ -10,37 +12,61 @@
         \thesisAuthorLastName, \thesisAuthorOtherNames% эта запись для свойств pdf-файла. В таком виде, если pdf будет обработан программами для сбора библиографических сведений, будет правильно представлена фамилия.
     }
 }
+\newcommand{\thesisAuthorEng}             % Диссертация, ФИО автора
+{%
+    \texorpdfstring{% \texorpdfstring takes two arguments and uses the first for (La)TeX and the second for pdf
+        \thesisAuthorLastNameEng~\thesisAuthorOtherNamesEng% так будет отображаться на титульном листе или в тексте, где будет использоваться переменная
+    }{%
+        \thesisAuthorLastNameEng, \thesisAuthorOtherNamesEng% эта запись для свойств pdf-файла. В таком виде, если pdf будет обработан программами для сбора библиографических сведений, будет правильно представлена фамилия.
+    }
+}
 \newcommand{\thesisAuthorShort}        % Диссертация, ФИО автора инициалами
 {\thesisAuthorInitials~\thesisAuthorLastName}
 %\newcommand{\thesisUdk}                % Диссертация, УДК
 %{\todo{xxx.xxx}}
 \newcommand{\thesisTitle}              % Диссертация, название
 {Оптимизационные методы обнаружения функциональных сетей головного мозга по магнитоэнцефалографическим данным.}
+\newcommand{\thesisTitleEng}              % Диссертация, название
+{Optimal methods for functional connectivity estimation in magnetoencephalography.}
 \newcommand{\thesisSpecialtyNumber}    % Диссертация, специальность, номер
 {05.13.01}
 \newcommand{\thesisSpecialtyTitle}     % Диссертация, специальность, название
 {Системный анализ, управление и обработка информации}
 \newcommand{\thesisDegree}             % Диссертация, ученая степень
 {кандидата компьютерных наук}
+\newcommand{\thesisDegreeEng}             % Диссертация, ученая степень
+{Doctor of Philosophy in Computer Science}
 \newcommand{\thesisDegreeShort}        % Диссертация, ученая степень, краткая запись
 {канд. физ.-мат. наук}
 \newcommand{\thesisCity}               % Диссертация, город написания диссертации
 {Москва}
+\newcommand{\thesisCityEng}               % Диссертация, город написания диссертации
+{Moscow}
 \newcommand{\thesisYear}               % Диссертация, год написания диссертации
 {2020}
 \newcommand{\thesisOrganization}       % Диссертация, организация
 {Федеральное государственное автономное образовательное учреждение высшего образования <<Национальный исследовательский университет
 <<Высшая школа экономики>>}
+\newcommand{\thesisOrganizationEng}       % Диссертация, организация
+{National Research University Higher School of Economics}
 \newcommand{\thesisOrganizationShort}  % Диссертация, краткое название организации для доклада
 {НИУ ВШЭ}
 
 \newcommand{\thesisInOrganization}     % Диссертация, организация в предложном падеже: Работа выполнена в ...
 {Национальном Исследовательском Унивеситете <<Высшая Школа Экономики>>}
+\newcommand{\thesisInOrganizationEng}     % Диссертация, организация в предложном падеже: Работа выполнена в ...
+{National Research University Higher School of Economics}
 
 \newcommand{\supervisorFio}            % Научный руководитель, ФИО
 {Осадчий Алексей Евгеньевич}
+\newcommand{\supervisorFioEng}            % Научный руководитель, ФИО
+{Alex Ossadtchi}
 \newcommand{\supervisorRegalia}        % Научный руководитель, регалии
-{PhD, профессор}
+{Ph.D., профессор}
+\newcommand{\supervisorRegaliaEng}        % Научный руководитель, регалии
+{Ph.D. in Electrical Engineering, Director of the Centre for Bioelectric Interfaces,
+Leading Research Fellow at the Centre for Cognition and Decision Making, Professor at the
+Faculty of Computer Science, National Research University Higher School of Economics}
 \newcommand{\supervisorFioShort}       % Научный руководитель, ФИО
 {А.\,Е.~Осадчий}
 \newcommand{\supervisorRegaliaShort}   % Научный руководитель, регалии
