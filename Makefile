@@ -14,6 +14,9 @@ pdflatex:
 synopsis:
 	#	$(MAKE) -C Synopsis
 	latexmk -pdf -pdflatex="xelatex %O %S" synopsis
+synopsis_eng:
+	#	$(MAKE) -C Synopsis
+	latexmk -pdf -pdflatex="xelatex %O %S" synopsis_eng
 draft:	
 	latexmk -pdf -pdflatex="xelatex %O '\newcounter{draft}\setcounter{draft}{1}\input{%S}'" dissertation
 	latexmk -pdf -pdflatex="xelatex %O '\newcounter{draft}\setcounter{draft}{1}\input{%S}'" synopsis
