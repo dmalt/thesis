@@ -395,3 +395,4 @@ distclean:
 release: all
 	git add dissertation.pdf
 	git add synopsis.pdf
+	git add synopsis_eng.pdf
