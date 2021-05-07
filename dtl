@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+docker run --rm --net=none --interactive --name=docker_thesis -v $PWD:/home/workdir \
+    --user=$(id --user):$(id --group) thesis $@
