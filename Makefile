@@ -6,20 +6,20 @@ preformat: synopsis-preformat dissertation-preformat
 
 dissertation:
 	#	$(MAKE) -C Dissertation
-	latexmk -pdf -pdflatex="xelatex %O %S" dissertation
+	latexmk -pdf -pdflatex="pdflatex %O %S" dissertation
 
 pdflatex:
 	latexmk -pdf -pdflatex="pdflatex %O %S" dissertation
 
 synopsis:
 	#	$(MAKE) -C Synopsis
-	latexmk -pdf -pdflatex="xelatex %O %S" synopsis
+	latexmk -pdf -pdflatex="pdflatex %O %S" synopsis
 synopsis_eng:
 	#	$(MAKE) -C Synopsis
-	latexmk -pdf -pdflatex="xelatex %O %S" synopsis_eng
+	latexmk -pdf -pdflatex="pdflatex %O %S" synopsis_eng
 draft:	
-	latexmk -pdf -pdflatex="xelatex %O '\newcounter{draft}\setcounter{draft}{1}\input{%S}'" dissertation
-	latexmk -pdf -pdflatex="xelatex %O '\newcounter{draft}\setcounter{draft}{1}\input{%S}'" synopsis
+	latexmk -pdf -pdflatex="pdflatex %O '\newcounter{draft}\setcounter{draft}{1}\input{%S}'" dissertation
+	latexmk -pdf -pdflatex="pdflatex %O '\newcounter{draft}\setcounter{draft}{1}\input{%S}'" synopsis
 
 talk:
 	$(MAKE) talk -C Presentation
